@@ -115,13 +115,18 @@ void Window::DrawLighting(const Drawable & drawable, const Drawable * light)
     Shader * shader = drawable.GetShader();
     shader->Use();
 
-    shader->SetMat4("view", m_camera.GetViewMatrix());
+    const glm::mat4 & view = m_camera.GetViewMatrix();
+    const glm::mat4 & model = drawable.GetModel();
+    const glm::mat4 model_to_view = view * model;
+
+    shader->SetMat4("model_to_view", model_to_view);
     shader->SetMat4("projection", m_camera.GetProjectionMatrix());
-    shader->SetMat4("model", drawable.GetModel());
+    //matrix for transforming normal vectors
+    shader->SetMat4("normalMat", glm::transpose(glm::inverse(model_to_view)));
+
     shader->SetVec3("objectColor", drawable.GetColor());
     shader->SetVec3("lightColor", light->GetColor());
-    shader->SetVec3("lightPos", light->GetPosition());
-
+    shader->SetVec3("lightPos", view * glm::vec4(light->GetPosition(), 1.f));
     drawable.Bind();
 
     if (Texture * texture = drawable.GetTexture())

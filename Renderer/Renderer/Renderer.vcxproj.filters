@@ -64,16 +64,22 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\BasicFragment.glsl">
+    <None Include="Shaders\PongShading.fs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
-    <None Include="Shaders\BasicVertex.glsl">
+    <None Include="Shaders\PongShading.vs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
-    <None Include="Shaders\LightFragment.glsl">
+    <None Include="Shaders\GouraudShading.vs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
-    <None Include="Shaders\LightVertex.glsl">
+    <None Include="Shaders\Basic.vs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Basic.fs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\GouraudShading.fs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
   </ItemGroup>

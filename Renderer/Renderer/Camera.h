@@ -29,6 +29,8 @@ public:
     }
     void SetPosition(float x, float y, float z) { SetPosition(glm::vec3(x, y, z)); }
 
+    const glm::vec3 & GetPosition() const { return m_pos; }
+
     //void SetTarget(const glm::vec3 & target)
     //{ 
     //    m_target = target;

@@ -175,10 +175,12 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\BasicFragment.glsl" />
-    <None Include="Shaders\BasicVertex.glsl" />
-    <None Include="Shaders\LightFragment.glsl" />
-    <None Include="Shaders\LightVertex.glsl" />
+    <None Include="Shaders\Basic.fs" />
+    <None Include="Shaders\Basic.vs" />
+    <None Include="Shaders\GouraudShading.vs" />
+    <None Include="Shaders\GouraudShading.fs" />
+    <None Include="Shaders\PongShading.fs" />
+    <None Include="Shaders\PongShading.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

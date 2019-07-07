@@ -11,8 +11,8 @@ enum class ShaderType
 class Shader
 {
 public:
-    Shader(const std::string & vertex = "Shaders/BasicVertex.glsl", 
-        const std::string & fragment = "Shaders/BasicFragment.glsl");
+    Shader(const std::string & vertex = "Shaders/Basic.vs", 
+        const std::string & fragment = "Shaders/Basic.fs");
     ~Shader();
     void Use();
 
