@@ -55,7 +55,7 @@ int main(int /*argc*/, char** /*argv*/)
         1, 2, 3    // second triangle
     };
 
-    Shader lighting_shader("Shaders/GouraudShading.vs", "Shaders/GouraudShading.fs");
+    Shader lighting_shader("Shaders/PongShading.vs", "Shaders/PongShading.fs");
     Drawable object(vertices, 216, indices, 6, &lighting_shader);
     object.SetPosition(glm::vec3(0, 0, 0));
     object.SetColor(glm::vec3(1.f, 0.5f, 0.31f));
@@ -73,7 +73,7 @@ int main(int /*argc*/, char** /*argv*/)
         window.Update(dt);
         window.StartDraw();
         /////////////////////////////////////////////////////////////////////
-        light.SetPosition(glm::vec3(std::cos(SDL_GetTicks()  * 0.001f) * 4, 0, std::sin(SDL_GetTicks() * 0.001f) * 4));
+        light.SetPosition(glm::vec3(4, 2, -4));
 
         window.DrawLighting(object, &light);
         window.Draw(light);
