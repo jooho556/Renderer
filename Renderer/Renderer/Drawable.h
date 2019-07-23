@@ -8,14 +8,12 @@ class Shader;
 class Drawable
 {
 public:
-    Drawable(float vertices[], int num_v,
-        unsigned int indices[], int num_i, Shader * shader = nullptr);
+    Drawable(float vertices[], int num_vertex, int data_per_vertex, Shader * shader);
     ~Drawable();
 
     void Bind() const;
     void Unbind() const;
 
-    unsigned int GetElementNum() const { return element_num; }
     unsigned int GetVertexNum() const { return vertex_num; }
 
     void SetShader(Shader * shader) { m_shader = shader; }
@@ -36,7 +34,6 @@ private:
     unsigned int VBO = 0;
     unsigned int EBO = 0;
     unsigned int vertex_num = 0;
-    unsigned int element_num = 0;
 
     glm::vec3 position;
     glm::vec3 color;

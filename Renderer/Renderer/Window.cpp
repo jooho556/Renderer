@@ -124,15 +124,13 @@ void Window::DrawLighting(const Drawable & drawable, const Drawable * light)
     //matrix for transforming normal vectors
     shader->SetMat4("normalMat", glm::transpose(glm::inverse(model_to_view)));
 
-    shader->SetVec3("material.ambient", glm::vec3(1.f, 0.5f, 0.31f));
-    shader->SetVec3("material.diffuse", glm::vec3(1.f, 0.5f, 0.31f));
-    shader->SetVec3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
-    shader->SetFloat("material.shininess", 32.f);
+    //material property
+    shader->SetInt("material.specular", 1);
+    shader->SetFloat("material.shininess", 64.f);
 
-    float tick = SDL_GetTicks() * 0.001f;
-    glm::vec3 light_color(std::sin(tick * 2.f), std::sin(tick * 0.7f), std::sin(tick * 1.3f));
-    shader->SetVec3("light.ambient", light_color * glm::vec3(0.2f));
-    shader->SetVec3("light.diffuse", light_color * glm::vec3(0.5f));
+    //light property
+    shader->SetVec3("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+    shader->SetVec3("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
     shader->SetVec3("light.specular", glm::vec3(1.f, 1.f, 1.f));
     shader->SetVec3("lightPos", view * glm::vec4(light->GetPosition(), 1.f));
     drawable.Bind();
