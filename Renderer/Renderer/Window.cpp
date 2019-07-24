@@ -35,7 +35,7 @@ Window::Window(const std::string & title)
 
     SDL_GL_SetSwapInterval(1);
     glEnable(GL_DEPTH_TEST);
-    glClearColor(0.3f, 0.3f, 0.3f, 1.f);
+    glClearColor(0.1f, 0.1f, 0.1f, 1.f);
 }
 
 Window::~Window()
@@ -132,7 +132,12 @@ void Window::DrawLighting(const Drawable & drawable, const Drawable * light)
     shader->SetVec3("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
     shader->SetVec3("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
     shader->SetVec3("light.specular", glm::vec3(1.f, 1.f, 1.f));
-    shader->SetVec3("lightPos", view * glm::vec4(light->GetPosition(), 1.f));
+    //shader->SetVec3("light.position", view * glm::vec4(light->GetPosition(), 1.f));
+    shader->SetFloat("light.constant", 1.f);
+    shader->SetFloat("light.linear", 0.09f);
+    shader->SetFloat("light.quadratic", 0.032f);
+    shader->SetFloat("light.inner_cutoff", glm::cos(glm::radians(20.f)));
+    shader->SetFloat("light.outer_cutoff", glm::cos(glm::radians(25.f)));
     drawable.Bind();
 
     if (Texture * texture = drawable.GetTexture())
