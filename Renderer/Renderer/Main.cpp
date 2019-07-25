@@ -74,7 +74,13 @@ int main(int /*argc*/, char** /*argv*/)
     Shader basic_shader;
     Drawable light(vertices, 36, 8, &basic_shader);
     light.SetColor(glm::vec3(1, 1, 1));
-    light.SetPosition(glm::vec3(4, 2, -4));
+
+    std::vector<glm::vec3> light_position = {
+        glm::vec3(0.7f,  0.2f,  2.0f),
+        glm::vec3(2.3f, -3.3f, -4.0f),
+        glm::vec3(-4.0f,  2.0f, -12.0f),
+        glm::vec3(0.0f,  0.0f, -3.0f)
+    };
 
     float last_tick = static_cast<float>(SDL_GetTicks()) * 0.001f;
     while (!window.IsDone())
@@ -90,10 +96,14 @@ int main(int /*argc*/, char** /*argv*/)
         {
             object.SetPosition(cubePositions[i]);
             object.Rotate(20.f * i, glm::vec3(1.f, 0.3f, 0.5f));
-            window.DrawLighting(object, &light);
+            window.DrawLighting(object, light_position);
         }
 
-        window.Draw(light);
+        for (int i = 0; i < 4; ++i)
+        {
+            light.SetPosition(light_position[i]);
+            window.Draw(light);
+        }
 
         /////////////////////////////////////////////////////////////////////
         window.EndDraw();
