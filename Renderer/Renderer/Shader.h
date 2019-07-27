@@ -14,13 +14,13 @@ public:
     Shader(const std::string & vertex = "Shaders/Basic.vs", 
         const std::string & fragment = "Shaders/Basic.fs");
     ~Shader();
-    void Use();
+    void Use() const;
 
-    void SetFloat(const std::string & name, float value);
-    void SetInt(const std::string & name, int value);
-    void SetBoll(const std::string & name, bool value);
-    void SetMat4(const std::string & name, const glm::mat4 & mat);
-    void SetVec3(const std::string & name, const glm::vec3 & vec);
+    void SetFloat(const std::string & name, float value) const;
+    void SetInt(const std::string & name, int value) const;
+    void SetBoll(const std::string & name, bool value) const;
+    void SetMat4(const std::string & name, const glm::mat4 & mat) const;
+    void SetVec3(const std::string & name, const glm::vec3 & vec) const;
 
     unsigned int m_programID;
 

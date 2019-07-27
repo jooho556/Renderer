@@ -1,7 +1,6 @@
 #include <cassert>
 #include "Window.h"
 #include "Shader.h"
-#include "Texture.h"
 
 namespace
 {
@@ -35,7 +34,7 @@ Window::Window(const std::string & title)
 
     SDL_GL_SetSwapInterval(1);
     glEnable(GL_DEPTH_TEST);
-    glClearColor(0.f, 0.f, 0.f, 0.f);
+    glClearColor(0.1f, 0.1f, 0.1f, 1.f);
 }
 
 Window::~Window()
@@ -89,28 +88,7 @@ void Window::EndDraw()
     SDL_GL_SwapWindow(m_window);
 }
 
-void Window::Draw(const Drawable & drawable)
-{
-    Shader * shader = drawable.GetShader();
-    shader->Use();
-
-    shader->SetMat4("view", m_camera.GetViewMatrix());
-    shader->SetMat4("projection", m_camera.GetProjectionMatrix());
-    shader->SetMat4("model", drawable.GetModel());
-    shader->SetVec3("objectColor", drawable.GetColor());
-
-    drawable.Bind();
-
-    if (Texture * texture = drawable.GetTexture())
-        texture->BindTexture();
-
-    glDrawArrays(GL_TRIANGLES, 0, drawable.GetVertexNum());
-    //glDrawElements(GL_TRIANGLES, drawable.GetElementNum(), GL_UNSIGNED_INT, 0);
-
-    drawable.Unbind();
-}
-
-void Window::DrawLighting(const Drawable & drawable, const std::vector<glm::vec3> & light_position)
+/*void Window::DrawLighting(const Drawable & drawable, const std::vector<glm::vec3> & light_position)
 {
     Shader * shader = drawable.GetShader();
     shader->Use();
@@ -168,14 +146,11 @@ void Window::DrawLighting(const Drawable & drawable, const std::vector<glm::vec3
     shader->SetVec3("spotLight.specular", glm::vec3(1.f, 1.f, 1.f));
     drawable.Bind();
 
-    if (Texture * texture = drawable.GetTexture())
-        texture->BindTexture();
-
     glDrawArrays(GL_TRIANGLES, 0, drawable.GetVertexNum());
     //glDrawElements(GL_TRIANGLES, drawable.GetElementNum(), GL_UNSIGNED_INT, 0);
 
     drawable.Unbind();
-}
+}*/
 
 void Window::Destroy()
 {

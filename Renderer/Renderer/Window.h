@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include <vector>
-#include "Drawable.h"
 #include "Camera.h"
 
 class Window
@@ -21,10 +20,8 @@ public:
 
     void StartDraw();
     void EndDraw();
-    void Draw(const Drawable & drawable);
-    void DrawLighting(const Drawable & drawable, const std::vector<glm::vec3> & light_position);
-
     bool IsDone() const { return terminate; }
+    const Camera & GetCamera() const { return m_camera; }
 
 private:
     void Destroy();

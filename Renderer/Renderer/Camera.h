@@ -1,7 +1,8 @@
 #pragma once
-
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "SDL2/SDL_stdinc.h"
+#include "SDL2/SDL_scancode.h"
 
 class Camera
 {
