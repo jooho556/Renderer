@@ -29,8 +29,8 @@ struct PointLight{
     vec3 specular;
 };
 
-#define NR_POINT_LIGHTS 4
-uniform PointLight pointLights[NR_POINT_LIGHTS];
+//#define NR_POINT_LIGHTS 4
+//uniform PointLight pointLights[NR_POINT_LIGHTS];
 
 struct SpotLight{
     float inner_cutoff;

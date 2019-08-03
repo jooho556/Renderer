@@ -82,5 +82,8 @@
     <None Include="Shaders\GouraudShading.fs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
+    <None Include="Shaders\DepthTest.fs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

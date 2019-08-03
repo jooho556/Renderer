@@ -177,6 +177,7 @@
   <ItemGroup>
     <None Include="Shaders\Basic.fs" />
     <None Include="Shaders\Basic.vs" />
+    <None Include="Shaders\DepthTest.fs" />
     <None Include="Shaders\GouraudShading.vs" />
     <None Include="Shaders\GouraudShading.fs" />
     <None Include="Shaders\PongShading.fs" />

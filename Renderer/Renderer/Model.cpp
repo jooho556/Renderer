@@ -10,7 +10,7 @@ void Model::Draw(const Shader & shader, const Camera & cam) const
     shader.Use();
 
     const glm::mat4 & view = cam.GetViewMatrix();
-    const glm::mat4 & model = glm::mat4(1);//glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -3.f));
+    const glm::mat4 & model = GetModelMat();//glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, -3.f));
     const glm::mat4 model_to_view = view * model;
 
     //////////////////////////////////

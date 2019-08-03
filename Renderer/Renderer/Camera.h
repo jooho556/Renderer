@@ -9,7 +9,7 @@ class Camera
 public:
     Camera(unsigned int window_width, unsigned int window_height,
         const glm::vec3 & pos = glm::vec3(1.f, 1.f, 3.f))
-    : m_projection(glm::perspective(45.f, (float)window_width / (float)window_height, 0.1f, 100.f)),
+    : m_projection(glm::perspective(45.f, (float)window_width / (float)window_height, 0.1f, 1000.f)),
         m_pos(pos), 
         m_last_x(static_cast<float>(window_width / 2)), 
         m_last_y(static_cast<float>(window_height / 2))

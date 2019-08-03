@@ -33,8 +33,11 @@ Window::Window(const std::string & title)
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     SDL_GL_SetSwapInterval(1);
+
     glEnable(GL_DEPTH_TEST);
-    glClearColor(0.1f, 0.1f, 0.1f, 1.f);
+    glDepthFunc(GL_LESS);
+  
+    glClearColor(0.7f, 0.7f, 0.7f, 1.f);
 }
 
 Window::~Window()
