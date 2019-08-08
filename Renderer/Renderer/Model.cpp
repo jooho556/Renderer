@@ -135,7 +135,7 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial * mat, aiTextureType
         mat->GetTexture(type, i, &str);
 
         bool skip = false;
-        unsigned int texture_loaded_size = textures_loaded.size();
+        unsigned int texture_loaded_size = static_cast<unsigned int>(textures_loaded.size());
         for (unsigned int j = 0; j < texture_loaded_size; ++j)
         {
             if (textures_loaded[j].path == std::string(str.C_Str()))
