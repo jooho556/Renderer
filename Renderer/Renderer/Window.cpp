@@ -65,7 +65,8 @@ void Window::PollEvent()
         }
         case SDL_MOUSEMOTION:
         {
-            m_camera.MouseMoveInput(event.motion.x, event.motion.y);
+            m_camera.MouseMoveInput(static_cast<float>(event.motion.x), 
+                static_cast<float>(event.motion.y));
             break;
         }
         }
