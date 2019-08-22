@@ -26,7 +26,7 @@ void Mesh::Draw(const Shader & shader) const
         else if (name == "texture_specular")
             number = std::to_string(specular_num++);
 
-        //shader.SetFloat(("material." + name + number).c_str(), i);
+        shader.SetFloat((name + number).c_str(), i);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
     glActiveTexture(GL_TEXTURE0);

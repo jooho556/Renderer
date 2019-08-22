@@ -39,5 +39,5 @@ private:
     std::string directory;
     std::vector<Texture> textures_loaded;
     glm::vec3 position;
-    float scale;
+    float scale = 1;
 };
