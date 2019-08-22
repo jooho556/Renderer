@@ -4,8 +4,8 @@
 
 namespace
 {
-    constexpr int WINDOW_WIDTH = 800;
-    constexpr int WINDOW_HEIGHT = 600;
+    constexpr int WINDOW_WIDTH = 1280;
+    constexpr int WINDOW_HEIGHT = 900;
 }
 
 Window::Window(const std::string & title)
@@ -37,7 +37,7 @@ Window::Window(const std::string & title)
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
   
-    glClearColor(0.7f, 0.7f, 0.7f, 1.f);
+    glClearColor(0.f, 0.f, 0.f, 1.f);
 }
 
 Window::~Window()
