@@ -5,14 +5,15 @@
 enum class ShaderType
 {
     Vertex,
-    Fragment
+    Fragment,
+    Compute
 };
 
 class Shader
 {
 public:
-    Shader(const std::string & vertex = "Shaders/Basic.vs", 
-        const std::string & fragment = "Shaders/Basic.fs");
+    Shader(const std::string & vertex , const std::string & fragment);
+    Shader(const std::string & compute);
     ~Shader();
     void Use() const;
 
@@ -28,4 +29,5 @@ private:
     unsigned int CreateShader(const std::string & source, ShaderType type);
     void CompileShader(unsigned int shader);
     void CreateProgram(unsigned int vertex, unsigned int fragment);
+    void CreateProgram(unsigned int compute);
 };

@@ -9,6 +9,16 @@ Mesh::Mesh(const std::vector<Vertex> & vertices, const std::vector<unsigned int>
     SetupMesh();
 }
 
+Mesh::~Mesh()
+{
+    for (Texture texture : textures)
+        glDeleteTextures(1, &texture.id);
+
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &EBO);
+    glDeleteBuffers(1, &VBO);
+}
+
 void Mesh::Draw(const Shader & shader) const
 {
     unsigned int diffuse_num = 1;

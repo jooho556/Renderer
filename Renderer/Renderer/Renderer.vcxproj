@@ -186,6 +186,9 @@
     <None Include="Shaders\Env_Reflection.vs" />
     <None Include="Shaders\GouraudShading.vs" />
     <None Include="Shaders\GouraudShading.fs" />
+    <None Include="Shaders\Particle.cs" />
+    <None Include="Shaders\Particle.fs" />
+    <None Include="Shaders\Particle.vs" />
     <None Include="Shaders\PongShading.fs" />
     <None Include="Shaders\PongShading.vs" />
   </ItemGroup>
