@@ -28,7 +28,7 @@ Window::Window(const std::string & title)
     glClearColor(0.f, 0.2f, 0.f, 1.f);
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 4);
 
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 

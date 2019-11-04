@@ -13,6 +13,13 @@ Shader::Shader(const std::string & vertex_path, const std::string & fragment_pat
     CreateProgram(vertex, fragment);
 }
 
+Shader::Shader(const std::string & compute_path)
+{
+    unsigned int compute = CreateShader(compute_path, ShaderType::Compute);
+    CompileShader(compute);
+    CreateProgram(compute);
+}
+
 Shader::~Shader()
 {
     glDeleteProgram(m_programID);
@@ -74,6 +81,11 @@ unsigned int Shader::CreateShader(const std::string & source_path, ShaderType ty
         shader = glCreateShader(GL_FRAGMENT_SHADER);
         break;
     }
+    case ShaderType::Compute:
+    {
+        shader = glCreateShader(GL_COMPUTE_SHADER);
+        break;
+    }
     }
 
     //Source reading from a file
@@ -126,4 +138,22 @@ void Shader::CreateProgram(unsigned int vertex, unsigned int fragment)
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);
+}
+
+void Shader::CreateProgram(unsigned int compute)
+{
+    m_programID = glCreateProgram();
+    glAttachShader(m_programID, compute);
+    glLinkProgram(m_programID);
+
+    int success;
+    glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
+    if (!success)
+    {
+        char log[512];
+        glGetProgramInfoLog(m_programID, 512, NULL, log);
+        std::cout << "ERROR: PROGRAM LINK FAILED:\n" << log << std::endl;
+    }
+
+    glDeleteShader(compute);
 }
