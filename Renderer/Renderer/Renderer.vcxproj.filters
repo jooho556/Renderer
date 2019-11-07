@@ -112,5 +112,8 @@
     <None Include="Shaders\Particle.cs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
+    <None Include="Shaders\ParticleBlackHole.cs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

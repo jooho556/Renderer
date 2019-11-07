@@ -189,6 +189,7 @@
     <None Include="Shaders\Particle.cs" />
     <None Include="Shaders\Particle.fs" />
     <None Include="Shaders\Particle.vs" />
+    <None Include="Shaders\ParticleBlackHole.cs" />
     <None Include="Shaders\PongShading.fs" />
     <None Include="Shaders\PongShading.vs" />
   </ItemGroup>
