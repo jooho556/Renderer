@@ -34,7 +34,7 @@ namespace Old
 
     void Texture::BindTexture() const
     {
-        int texture_num = texture_units.size();
+        int texture_num = static_cast<int>(texture_units.size());
         for (int unit = 0; unit < texture_num; ++unit)
         {
             glActiveTexture(GL_TEXTURE0 + unit);
@@ -44,7 +44,7 @@ namespace Old
 
     void Texture::UnbindTexture() const
     {
-        int texture_num = texture_units.size();
+        int texture_num = static_cast<int>(texture_units.size());
         for (int unit = 0; unit < texture_num; ++texture_num)
         {
             glActiveTexture(GL_TEXTURE0 + unit);
