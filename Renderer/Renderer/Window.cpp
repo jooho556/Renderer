@@ -34,7 +34,7 @@ Window::Window(const std::string & title)
 
     SDL_GL_SetSwapInterval(1);
 
-    glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
   
     glClearColor(0.f, 0.f, 0.f, 1.f);

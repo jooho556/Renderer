@@ -45,6 +45,9 @@
     <ClCompile Include="Skybox.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -66,6 +69,9 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Skybox.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,6 +119,12 @@
       <Filter>리소스 파일\Shader</Filter>
     </None>
     <None Include="Shaders\ParticleBlackHole.cs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Nebula.fs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Nebula.vs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
   </ItemGroup>
