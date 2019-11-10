@@ -22,8 +22,8 @@ void main()
 
     float r_sqr = aPos.x * aPos.x + aPos.y * aPos.y;
     if(mass > 29 && r_sqr > 100)
-        out_color = vec3(.9f, 0.5f, 0.5f);
+        out_color = vec3(1.f, .1f, .1f);
 
-    gl_PointSize = mass / 5.f * (sin(tick + gl_VertexID) + 1);
+    gl_PointSize = mass * 2 * (sin(tick + gl_VertexID) + 1);
     gl_Position = projection * model_to_view * aPos;
 }
