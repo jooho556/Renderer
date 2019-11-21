@@ -1,4 +1,5 @@
 #include <cassert>
+#include <ctime>
 #include "Window.h"
 #include "Shader.h"
 
@@ -29,15 +30,16 @@ Window::Window(const std::string & title)
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 4);
-
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     SDL_GL_SetSwapInterval(1);
 
-    //glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
   
     glClearColor(0.f, 0.f, 0.f, 1.f);
+
+    srand(unsigned(time(0)));
 }
 
 Window::~Window()

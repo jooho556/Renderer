@@ -10,22 +10,17 @@ layout(std430, binding = 0) buffer Pos
     vec4 Position [];
 };
 
-layout(std430, binding = 1) buffer Vel
-{
-    vec4 Velocity [];
-};
-
-layout(std430, binding = 2) buffer M
+layout(std430, binding = 1) buffer M
 {
     float Mass [];
 };
 
-layout(std430, binding = 3) buffer EInfo
+layout(std430, binding = 2) buffer EInfo
 {
-    vec3 Info [];
+    vec4 Info [];
 };
 
-layout(std430, binding = 4) buffer ErInfo
+layout(std430, binding = 3) buffer ErInfo
 {
     mat4 rInfo [];
 };
@@ -44,5 +39,5 @@ void main()
 
     //Velocity[id] = vec4(x_vel, y_vel, 0.f, 1.f);
     //Position[id] = vec4(Position[id].xyz + Velocity[id].xyz * dt, 1.f);
-    Info[id].x -= 0.00005f * Info[id].y;
+    Info[id].x -= 0.00005f;
 } 
