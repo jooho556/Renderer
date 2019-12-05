@@ -8,12 +8,17 @@ class Camera
 {
 public:
     Camera(unsigned int window_width, unsigned int window_height,
-        const glm::vec3 & pos = glm::vec3(0.f, 0.f, 55.f))
+        const glm::vec3 & pos = glm::vec3(0.f, 0.f, 0.f), const glm::vec3 & front = glm::vec3(0, 0, -1.f))
     : m_projection(glm::perspective(45.f, (float)window_width / (float)window_height, 0.1f, 1000.f)),
         m_pos(pos), 
         m_last_x(static_cast<float>(window_width / 2)), 
-        m_last_y(static_cast<float>(window_height / 2))
+        m_last_y(static_cast<float>(window_height / 2)),
+        m_front(front)
     {
+        if (m_front == glm::vec3(0, 1, 0))
+            m_up = glm::vec3(0, 0, 1);
+        else if (m_front == glm::vec3(0, -1, 0))
+            m_up = glm::vec3(0, 0, -1);
         UpdateView();
     }
 

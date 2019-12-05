@@ -7,21 +7,23 @@ class Old::Texture;
 class Galaxy
 {
 public:
-    Galaxy(const glm::vec3 & pos, const glm::vec3 & nebula_color, const glm::vec3 & star_color);
+    Galaxy(const glm::vec3 & pos, const glm::vec3 & nebula_color, float ellipse_rad_a, float ellipse_eccentricity, 
+        const glm::vec3 & star_color = glm::vec3(1.f, 1.f, 1.f));
     ~Galaxy();
 
-    void Draw(Shader * compute, Shader * nebula, Shader * star, const Camera * cam, const Old::Texture * tex);
+    void Draw(Shader * compute, Shader * star, const Camera * cam, const Old::Texture * tex);
     void SetPosition(const glm::vec3 & position) { pos = position; }
     void SetColor(const glm::vec3 & n_color) { nebula_color = n_color; }
 
 private:
-    void CreateGalaxy();
+    void CreateGalaxy(float ellipse_rad_a, float ellipse_eccentricity);
     float deVaucouleurs(float radius, float scale_length = 20.f);
 
     glm::vec3 pos;
+    glm::mat4 rotation = glm::mat4(1.f);
+    glm::mat4 scale = glm::mat4(1.f);
     glm::vec3 nebula_color, star_color;
 
-    unsigned int vao, pos_buf, mass_buf, e_info_buf, e_rinfo_buf;
-    static int galaxy_num;
-    static int particle_num;
+    unsigned int vao, particle_buf;
+    int particle_num = 0;
 };
