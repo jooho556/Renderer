@@ -121,12 +121,6 @@
     <None Include="Shaders\Cubemap.vs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
-    <None Include="Shaders\Env_Reflection.vs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Env_Reflection.fs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
     <None Include="Shaders\Particle.fs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
@@ -143,6 +137,24 @@
       <Filter>리소스 파일\Shader</Filter>
     </None>
     <None Include="Shaders\Nebula.vs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Environment.fs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Environment.vs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Stars.vs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Stars.fs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Noise.vs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Noise.fs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
   </ItemGroup>

@@ -15,10 +15,12 @@ void Model::Draw(const Shader & shader, const Camera & cam) const
 
     //////////////////////////////////
     //Vertex shader uniform setting
-    shader.SetMat4("model_to_view", model_to_view);
-    shader.SetMat4("projection", cam.GetProjectionMatrix());
+    shader.SetMat4("model", model);
+    shader.SetMat4("view", view);
+    shader.SetMat4("projection", cam.GetProjectionMatrix());    
+    shader.SetVec3("camera_pos", cam.GetPosition());
     //matrix for transforming normal vectors
-    shader.SetMat4("normalMat", glm::transpose(glm::inverse(model_to_view)));
+    //shader.SetMat4("normalMat", glm::transpose(glm::inverse(model_to_view)));
 
     //Directional light property
     shader.SetVec3("dirLight.direction", glm::vec3(-0.2f, -1.f, -0.4f));

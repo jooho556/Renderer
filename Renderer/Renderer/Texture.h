@@ -15,6 +15,7 @@ namespace Old
         void LoadTexture(const std::string& texture_path);
         void BindTexture() const;
         void UnbindTexture() const;
+        unsigned int GetTextureHandle() const { return texture_units[0]; }
 
         //unsigned int m_textureID = 0;
 

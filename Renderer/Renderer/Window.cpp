@@ -2,11 +2,12 @@
 #include <ctime>
 #include "Window.h"
 #include "Shader.h"
+#include "stb_image_write.h"
 
 namespace
 {
-    constexpr int WINDOW_WIDTH = 1280;
-    constexpr int WINDOW_HEIGHT = 900;
+    constexpr int WINDOW_WIDTH = 1024;
+    constexpr int WINDOW_HEIGHT = 1024;
 }
 
 Window::Window(const std::string & title)
@@ -37,7 +38,7 @@ Window::Window(const std::string & title)
     //glEnable(GL_DEPTH_TEST);
     //glDepthFunc(GL_LESS);
   
-    glClearColor(0.f, 0.f, 0.f, 1.f);
+    glClearColor(0.05f, 0.f, 0.1f, 1.f);
 
     srand(unsigned(time(0)));
 }
@@ -69,6 +70,17 @@ void Window::PollEvent()
         {
             m_camera.MouseMoveInput(static_cast<float>(event.motion.x), 
                 static_cast<float>(event.motion.y));
+            break;
+        }
+        case SDL_KEYDOWN:
+        {
+            if (event.key.keysym.scancode == SDL_SCANCODE_F1)
+            {
+                unsigned char * pixels = new unsigned char[3 * WINDOW_WIDTH * WINDOW_HEIGHT];
+                glReadPixels(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+                stbi_write_png("ScreenShot.png", WINDOW_WIDTH, WINDOW_HEIGHT, 3, &pixels[0], 0);
+                delete[] pixels;
+            }
             break;
         }
         }
