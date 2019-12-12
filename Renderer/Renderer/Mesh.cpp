@@ -14,9 +14,9 @@ Mesh::~Mesh()
     for (Texture texture : textures)
         glDeleteTextures(1, &texture.id);
 
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &EBO);
-    glDeleteBuffers(1, &VBO);
+    //glDeleteVertexArrays(1, &VAO);
+    //glDeleteBuffers(1, &EBO);
+    //glDeleteBuffers(1, &VBO);
 }
 
 void Mesh::Draw(const Shader & shader) const

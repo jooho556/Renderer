@@ -9,16 +9,16 @@ class Camera
 public:
     Camera(unsigned int window_width, unsigned int window_height,
         const glm::vec3 & pos = glm::vec3(0.f, 0.f, 0.f), const glm::vec3 & front = glm::vec3(0, 0, -1.f))
-    : m_projection(glm::perspective(45.f, (float)window_width / (float)window_height, 0.1f, 1000.f)),
+    : m_projection(glm::perspective(glm::radians(90.f), (float)window_width / (float)window_height, 0.1f, 1000.f)),
         m_pos(pos), 
         m_last_x(static_cast<float>(window_width / 2)), 
         m_last_y(static_cast<float>(window_height / 2)),
         m_front(front)
     {
         if (m_front == glm::vec3(0, 1, 0))
-            m_up = glm::vec3(0, 0, 1);
-        else if (m_front == glm::vec3(0, -1, 0))
             m_up = glm::vec3(0, 0, -1);
+        else if (m_front == glm::vec3(0, -1, 0))
+            m_up = glm::vec3(0, 0, 1);
         UpdateView();
     }
 
@@ -36,14 +36,6 @@ public:
     void SetPosition(float x, float y, float z) { SetPosition(glm::vec3(x, y, z)); }
 
     const glm::vec3 & GetPosition() const { return m_pos; }
-
-    //void SetTarget(const glm::vec3 & target)
-    //{ 
-    //    m_target = target;
-    //    UpdateView();
-    //}
-    //void SetTarget(float x, float y, float z) { SetTarget(glm::vec3(x, y, z)); }
-
     const glm::mat4 & GetViewMatrix() const { return m_view; }
     const glm::mat4 & GetProjectionMatrix() const { return m_projection; }
 
@@ -88,11 +80,6 @@ public:
         front.z = cos(glm::radians(m_pitch)) * sin(glm::radians(m_yaw));
         m_front = glm::normalize(front);
     }
-
-    //void MouseScrollInput(float delta)
-    //{
-
-    //}
 
 private:
     void UpdateView()

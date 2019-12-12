@@ -189,18 +189,22 @@
     <None Include="Shaders\Cubemap.fs" />
     <None Include="Shaders\Cubemap.vs" />
     <None Include="Shaders\DepthTest.fs" />
-    <None Include="Shaders\Env_Reflection.fs" />
-    <None Include="Shaders\Env_Reflection.vs" />
+    <None Include="Shaders\Environment.fs" />
+    <None Include="Shaders\Environment.vs" />
     <None Include="Shaders\GouraudShading.vs" />
     <None Include="Shaders\GouraudShading.fs" />
     <None Include="Shaders\Nebula.fs" />
     <None Include="Shaders\Nebula.vs" />
+    <None Include="Shaders\Noise.fs" />
+    <None Include="Shaders\Noise.vs" />
     <None Include="Shaders\Particle.cs" />
     <None Include="Shaders\Particle.fs" />
     <None Include="Shaders\Particle.vs" />
     <None Include="Shaders\ParticleBlackHole.cs" />
     <None Include="Shaders\PongShading.fs" />
     <None Include="Shaders\PongShading.vs" />
+    <None Include="Shaders\Stars.vs" />
+    <None Include="Shaders\Stars.fs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
