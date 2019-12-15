@@ -57,6 +57,9 @@
     <ClCompile Include="stbi_image_write.cpp">
       <Filter>소스 파일\External</Filter>
     </ClCompile>
+    <ClCompile Include="PerlinNoise.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -91,6 +94,12 @@
     </ClInclude>
     <ClInclude Include="stb_image_write.h">
       <Filter>소스 파일\External</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinNoise.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
