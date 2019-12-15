@@ -33,36 +33,57 @@ void Shader::Use() const
 void Shader::SetFloat(const std::string & name, float value) const
 {
     int location = glGetUniformLocation(m_programID, name.c_str());
-    if (location != -1)
-        glUniform1f(location, value);
+    if (location == -1)
+        std::cerr << "Cannot find uniform location : " << name << std::endl;
+    glUniform1f(location, value);
 }
 
 void Shader::SetInt(const std::string & name, int value) const
 {
     int location = glGetUniformLocation(m_programID, name.c_str());
-    if (location != -1)
-        glUniform1i(location, value);
+    if (location == -1)
+        std::cerr << "Cannot find uniform location : " << name << std::endl;
+    glUniform1i(location, value);
 }
 
 void Shader::SetBoll(const std::string & name, bool value) const
 {
     int location = glGetUniformLocation(m_programID, name.c_str());
-    if (location != -1)
-        glUniform1i(location, static_cast<int>(value));
+    if (location == -1)
+        std::cerr << "Cannot find uniform location : " << name << std::endl;
+    glUniform1i(location, static_cast<int>(value));
 }
 
 void Shader::SetMat4(const std::string & name, const glm::mat4 & mat) const
 {
     unsigned int location = glGetUniformLocation(m_programID, name.c_str());
-    if (location != -1)
-        glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
+    if (location == -1)
+        std::cerr << "Cannot find uniform location : " << name << std::endl;
+    glUniformMatrix4fv(location, 1, GL_FALSE, &mat[0][0]);
 }
 
 void Shader::SetVec3(const std::string & name, const glm::vec3 & vec) const
 {
     unsigned int location = glGetUniformLocation(m_programID, name.c_str());
-    if(location != -1)
-        glUniform3fv(location, 1, &vec[0]);
+    if (location == -1)
+        std::cerr << "Cannot find uniform location : " << name << std::endl;
+    glUniform3fv(location, 1, &vec[0]);
+}
+
+void Shader::SetVec2Array(const std::string & name, const glm::vec2 * array, int size) const
+{
+    unsigned int location = glGetUniformLocation(m_programID, name.c_str());
+    if (location == -1)
+        std::cerr << "Cannot find uniform location : " << name << std::endl;
+    glUniform2fv(location, size, &(array[0][0]));
+}
+
+void Shader::SetUintArray(const std::string & name, const unsigned int * array, int size) const
+{
+    unsigned int location = glGetUniformLocation(m_programID, name.c_str());
+    if (location == -1)
+        std::cerr << "Cannot find uniform location : " << name << std::endl;
+    glUniform1uiv(location, size, array);
 }
 
 unsigned int Shader::CreateShader(const std::string & source_path, ShaderType type)
@@ -114,8 +135,8 @@ void Shader::CompileShader(unsigned int shader)
 
     if (!success)
     {
-        char log[512];
-        glGetShaderInfoLog(shader, 512, NULL, log);
+        char log[8096];
+        glGetShaderInfoLog(shader, 8096, NULL, log);
         std::cout << "ERROR: SHADER COMPILATION FAILED:\n" << log << std::endl;
     }
 }
@@ -131,8 +152,8 @@ void Shader::CreateProgram(unsigned int vertex, unsigned int fragment)
     glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
     if (!success)
     {
-        char log[512];
-        glGetProgramInfoLog(m_programID, 512, NULL, log);
+        char log[8096];
+        glGetProgramInfoLog(m_programID, 8096, NULL, log);
         std::cout << "ERROR: PROGRAM LINK FAILED:\n" << log << std::endl;
     }
 
@@ -150,8 +171,8 @@ void Shader::CreateProgram(unsigned int compute)
     glGetProgramiv(m_programID, GL_LINK_STATUS, &success);
     if (!success)
     {
-        char log[512];
-        glGetProgramInfoLog(m_programID, 512, NULL, log);
+        char log[8096];
+        glGetProgramInfoLog(m_programID, 8096, NULL, log);
         std::cout << "ERROR: PROGRAM LINK FAILED:\n" << log << std::endl;
     }
 

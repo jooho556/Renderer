@@ -3,69 +3,82 @@
 in vec2 tex_coord;
 
 uniform sampler2D stars;
-uniform sampler2D noise_source;
+uniform int screen_width;
+uniform int screen_height;
+uniform int table_size;
 
-uniform vec3 color = vec3(0.4f, 0.2f, 0.4f);
-uniform vec2 offset = vec2(0.f, 0.f);
-uniform float scale = 1.f;
-uniform float density = 0.25f;
-uniform float falloff = 8.f;
+uniform vec2 gradients[256];
+uniform uint permutations[512];
 
-uniform float screen_width;
-uniform float screen_height;
-
-#define M_PI 3.14159265358979323846
-
-float rand(vec2 co){return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);}
-float rand (vec2 co, float l) {return rand(vec2(rand(co), l));}
-float rand (vec2 co, float l, float t) {return rand(vec2(rand(co, l), t));}
-
-float perlin(vec2 p, float dim, float time) {
-	vec2 pos = floor(p * dim);
-	vec2 posx = pos + vec2(1.0, 0.0);
-	vec2 posy = pos + vec2(0.0, 1.0);
-	vec2 posxy = pos + vec2(1.0);
-	
-	float c = rand(pos, dim, time);
-	float cx = rand(posx, dim, time);
-	float cy = rand(posy, dim, time);
-	float cxy = rand(posxy, dim, time);
-	
-	vec2 d = fract(p * dim);
-	d = -0.5 * cos(d * M_PI) + 0.5;
-	
-	float ccx = mix(c, cx, d.x);
-	float cycxy = mix(cy, cxy, d.x);
-	float center = mix(ccx, cycxy, d.y);
-	
-	return center * 2.0 - 1.0;
+uint Hash(uint x, uint y)
+{
+    return permutations[permutations[x] + y];
 }
 
-// p must be normalized!
-float perlin(vec2 p, float dim) {
-	return perlin(p, dim, .01);
+vec2 GetPoint(float x, float y) // fragcoord.x, fragcoord.y
+{
+    uint unit_x_length = uint(screen_width / table_size); // 1024x1024, table_size = 256, then width of one grid is 4.
+    uint unit_y_length = uint(screen_height / table_size);
+
+    return vec2(float(x / unit_x_length), float(y / unit_y_length));
 }
 
-   float normalnoise(vec2 p) {
-    return perlin(p, 0.1f) * 0.5 + 0.5;
+float lerp(float a, float b, float t)
+{
+    return a + t * (b - a);
 }
-float noise(vec2 p) {
-    p += offset;
-    const int steps = 5;
-    float scale = pow(2.0, float(steps));
-    float displace = 0.0;
-    for (int i = 0; i < steps; i++) {
-        displace = normalnoise(p * scale + displace);
-        scale *= 0.5;
-    }
-    return normalnoise(p + displace);
+
+float GetPerlinNoise(vec2 p)
+{
+    int table_size_mask = table_size - 1;
+
+    //Four corners
+    int xi0 = (int(floor(p.x))) & table_size_mask;
+    int yi0 = (int(floor(p.y))) & table_size_mask;
+    int xi1 = (xi0 + 1) & table_size_mask;
+    int yi1 = (xi0 + 1) & table_size_mask;
+
+    //Fractional part in local grid
+    float tx = p.x - (int(floor(p.x)));
+    float ty = p.y - (int(floor(p.y)));
+
+    float t1 = smoothstep(0.f, 1.f, tx);
+    float t2 = smoothstep(0.f, 1.f, tx);
+
+    //Getting gradient of each corner
+    vec2 g_bot_left = gradients[Hash(xi0, yi0)];
+    vec2 g_bot_right = gradients[Hash(xi1, yi0)];
+    vec2 g_top_right= gradients[Hash(xi1, yi1)];
+    vec2 g_top_left = gradients[Hash(xi0, yi1)];
+
+    //Generate vectors going from each corner to p
+    float x0 = tx;
+    float x1 = tx - 1;
+    float y0 = ty;
+    float y1 = ty - 1;
+
+    vec2 bot_left_to_p = vec2(x0, y0);
+    vec2 bot_right_to_p = vec2(x1, y0);
+    vec2 top_right_to_p = vec2(x1, y1);
+    vec2 top_left_to_p = vec2(x0, y1);
+
+    //Dot product
+    float bot_left_val = dot(g_bot_left, bot_left_to_p);
+    float bot_right_val = dot(g_bot_right, bot_right_to_p);
+    float top_right_val = dot(g_top_right, top_right_to_p);
+    float top_left_val = dot(g_top_left, top_left_to_p);
+
+    //Bi-linear interpolation
+    float bottom_edge_x = mix(bot_left_val, bot_right_val, t1);
+    float top_edge_x = mix(top_left_val, top_right_val, t1);
+    float final_result = mix(bottom_edge_x, top_edge_x, t2);
+
+    return (final_result + 1.f) / 2.f;
 }
 
 void main()
 {
     vec3 s = texture2D(stars, tex_coord).rgb;
-    //vec3 s = vec3(0.f);
-    float n = noise(gl_FragCoord.xy * scale * 1.0);
-    n = pow(n + density, falloff);
-    gl_FragColor = vec4(mix(s, color, n), 1.f);
+    float n = GetPerlinNoise(GetPoint(gl_FragCoord.x, gl_FragCoord.y));
+    gl_FragColor = vec4(mix(s, vec3(0.4f, 0.1f, 0.4f), n), 1.f);
 }
