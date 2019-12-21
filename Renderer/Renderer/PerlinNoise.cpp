@@ -3,7 +3,7 @@
 #include "PerlinNoise.h"
 #include "GL/glew.h"
 
-PerlinNoise::PerlinNoise()
+PerlinNoise::PerlinNoise() : table_size(256)
 {
     //Generate random gradients
     for (unsigned int i = 0; i < table_size; ++i)

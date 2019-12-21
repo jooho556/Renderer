@@ -15,10 +15,10 @@ uint Hash(uint x, uint y)
     return permutations[permutations[x] + y];
 }
 
-vec2 GetPoint(float x, float y, int t_size) // fragcoord.x, fragcoord.y
+vec2 GetPoint(float x, float y) // fragcoord.x, fragcoord.y
 {
-    uint unit_x_length = uint(screen_width / t_size); // 1024x1024, table_size = 256, then width of one grid is 4.
-    uint unit_y_length = uint(screen_height / t_size);
+    uint unit_x_length = uint(screen_width / table_size); // 1024x1024, table_size = 256, then width of one grid is 4.
+    uint unit_y_length = uint(screen_height / table_size);
 
     return vec2(float(x / float(unit_x_length)), float(y / float(unit_y_length)));
 }
@@ -28,9 +28,9 @@ float lerp(float a, float b, float t)
     return a + t * (b - a);
 }
 
-float GetPerlinNoise(vec2 p, int t_size)
+float GetPerlinNoise(vec2 p)
 {
-    int table_size_mask = t_size - 1;
+    int table_size_mask = table_size - 1;
 
     //Four corners
     int xi0 = (int(floor(p.x))) & table_size_mask;
@@ -80,25 +80,27 @@ float GetPerlinNoise(vec2 p, int t_size)
     return final_result;
 }
 
-float Turbulence(vec2 p, int t_size)
+float FractalSum(vec2 point, int layer_num)
 {
-    float value = 0.f;
-
-    float i = 0.f;
-    while(t_size <= int(table_size))
-    {
-        value += GetPerlinNoise(p, t_size);
-        t_size *= 2;
-        i++;
-    }
-
-    return value / i;
+	float n = GetPerlinNoise(point);
+	for(int i = 0; i < layer_num; ++i)
+	{
+		point /= 2.f;
+		n += GetPerlinNoise(point);
+	}
+	return n / layer_num;
 }
 
 void main()
 {
     vec3 s = texture2D(stars, tex_coord).rgb;
-    //float n = GetPerlinNoise(GetPoint(gl_FragCoord.x, gl_FragCoord.y, 4), 4);
-    float n = Turbulence(GetPoint(gl_FragCoord.x, gl_FragCoord.y, 8), 8);
-    gl_FragColor = vec4(mix(s, vec3(0.4f, 0.1f, 0.4f), n), 1.f);
+	vec2 point = GetPoint(gl_FragCoord.x, gl_FragCoord.y);
+
+	float n = FractalSum(point, 8);
+
+	n = pow(n + 0.25f, 8);
+
+
+	//gl_FragColor = vec4(vec3(n), 1.f);
+	gl_FragColor = vec4(mix(s, vec3(0.4f, 0.4f + n, 0.4f), n), 1.f);
 }
