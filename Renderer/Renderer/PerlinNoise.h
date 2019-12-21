@@ -13,7 +13,7 @@ public:
     const std::vector<unsigned int> & GetPermutationTable() const { return permutation_table; }
 
 private:
-    const unsigned int table_size = 256;
+    const unsigned int table_size;
     std::vector<glm::vec2> gradients;
     std::vector<unsigned int> permutation_table;
 };

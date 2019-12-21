@@ -166,9 +166,9 @@ int main(int /*argc*/, char** /*argv*/)
         //star_shader.SetMat4("projection", cam.GetProjectionMatrix());
      
         nebula_shader.Use();
-        nebula_shader.SetInt("table_size", perlin.GetTableSize());
         nebula_shader.SetInt("screen_width", WINDOW_WIDTH);
         nebula_shader.SetInt("screen_height", WINDOW_HEIGHT);
+		nebula_shader.SetInt("table_size", static_cast<int>(perlin.GetTableSize()));
         nebula_shader.SetVec2Array("gradients", perlin.GetGradients().data(), perlin.GetTableSize());
         nebula_shader.SetUintArray("permutations", perlin.GetPermutationTable().data(), perlin.GetTableSize() * 2);
 
