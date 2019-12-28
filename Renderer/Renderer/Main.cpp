@@ -143,13 +143,14 @@ int main(int /*argc*/, char** /*argv*/)
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 3));
     glEnableVertexAttribArray(1);
 
-    Old::Texture noise_src("Noise.png");
     Old::Texture star_src("Stars.png");
     Shader nebula_shader("Shaders/Nebula.vs", "Shaders/Nebula.fs");
 
     star_src.BindTexture();
 
     PerlinNoise perlin;
+    perlin.GenerateNoiseTexture();
+    Old::Texture noise_src("PerlinNoise.png");
 
     float last_tick = static_cast<float>(SDL_GetTicks()) * 0.001f;
     while (!window.IsDone())
@@ -159,28 +160,16 @@ int main(int /*argc*/, char** /*argv*/)
         window.Update(dt);
         window.StartDraw();
         /////////////////////////////////////////////////////////////////////
-        //glBindVertexArray(vao);
-        //particle_tex.BindTexture();
-        //star_shader.Use();
-        //star_shader.SetMat4("view", cam.GetViewMatrix());
-        //star_shader.SetMat4("projection", cam.GetProjectionMatrix());
-     
         nebula_shader.Use();
-        nebula_shader.SetInt("screen_width", WINDOW_WIDTH);
-        nebula_shader.SetInt("screen_height", WINDOW_HEIGHT);
-		nebula_shader.SetInt("table_size", static_cast<int>(perlin.GetTableSize()));
-        nebula_shader.SetVec2Array("gradients", perlin.GetGradients().data(), perlin.GetTableSize());
-        nebula_shader.SetUintArray("permutations", perlin.GetPermutationTable().data(), perlin.GetTableSize() * 2);
 
-        //if (first_iteration)
-        //{
-        //    unsigned char * pixels = new unsigned char[3 * WINDOW_WIDTH * WINDOW_HEIGHT];
-        //    glReadPixels(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
-        //    stbi_write_png("Noise_src.png", WINDOW_WIDTH, WINDOW_HEIGHT, 3, &pixels[0], 0);
-        //    delete[] pixels;
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, star_src.GetTextureHandle());
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, noise_src.GetTextureHandle());
 
-        //    first_iteration = false;
-        //}
+        nebula_shader.SetInt("stars", 0);
+        nebula_shader.SetInt("noise", 1);
+        //nebula_shader.SetVec3("color", glm::vec3(0.4f, 0.1f, 0.4f));
 
         glDrawArrays(GL_TRIANGLES, 0, 6);
         //glDrawArrays(GL_POINTS, 0, stars_num);
