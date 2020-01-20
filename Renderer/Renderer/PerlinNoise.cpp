@@ -172,6 +172,14 @@ PerlinNoise3D::PerlinNoise3D() : table_size(size), noise_side_length(256)
 
     //Shuffle p table for hashing
     std::random_shuffle(permutation_table.begin(), permutation_table.end());
+
+    BuildTexture3D();
+}
+
+PerlinNoise3D::~PerlinNoise3D()
+{
+    if (texture_id != 0)
+        glDeleteTextures(1, &texture_id);
 }
 
 glm::vec3 PerlinNoise3D::GetPoint(float x, float y, float z) const
@@ -275,7 +283,7 @@ float PerlinNoise3D::FractalSum(glm::vec3 point, int layer_num, float& maximum_v
     return n;
 }
 
-std::vector<float> PerlinNoise3D::GetNoiseData() const
+void PerlinNoise3D::BuildTexture3D()
 {
     std::vector<float> noise_data;
     float maximum_value = 0;
@@ -287,6 +295,8 @@ std::vector<float> PerlinNoise3D::GetNoiseData() const
             {
                 float n = FractalSum(GetPoint(x, y, z), 8, maximum_value);
                 noise_data.push_back(n);
+                noise_data.push_back(n);
+                noise_data.push_back(n);
             }
         }
     }
@@ -294,30 +304,17 @@ std::vector<float> PerlinNoise3D::GetNoiseData() const
     std::for_each(noise_data.begin(), noise_data.end(),
         [maximum_value](float& noise) {noise /= maximum_value; });
 
-    return noise_data;
-}
+    glGenTextures(1, &texture_id);
+    glBindTexture(GL_TEXTURE_3D, texture_id);
 
-void PerlinNoise3D::GenerateImages(unsigned int layer_num) const
-{
-    const std::vector<float> & noise_data = GetNoiseData();
+    //Texture Wrapping (0 ~ 1)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
 
-    int plain_pixel_num = noise_side_length * noise_side_length;
-    for(unsigned int i = 0; i < layer_num; ++i)
-    {
-        std::vector<unsigned char> pixels{ 0 };
-        for(unsigned int y = 0; y < noise_side_length; ++y)
-        {
-            for(unsigned int x = 0; x < noise_side_length; ++x)
-            {
-                int index = noise_side_length * y + x;
-                index += plain_pixel_num * i;
-                unsigned char n_char = static_cast<unsigned char>(noise_data[index] * 255);
-                pixels.push_back(n_char);
-                pixels.push_back(n_char);
-                pixels.push_back(n_char);
-            }
-        }
-        stbi_write_png((std::string("PNoise") + char(i + 48) + ".png").c_str(),
-            noise_side_length, noise_side_length, 3, &pixels[0], 0);
-    }
+    //Texture filtering - sampling
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB, noise_side_length, noise_side_length, noise_side_length, 0, GL_RGB, GL_FLOAT, noise_data.data());
 }
