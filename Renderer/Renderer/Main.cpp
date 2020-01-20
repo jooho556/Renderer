@@ -152,6 +152,9 @@ int main(int /*argc*/, char** /*argv*/)
     perlin.GenerateNoiseTexture();
     Old::Texture noise_src("PerlinNoise.png");
 
+    PerlinNoise3D perlin3d;
+    perlin3d.GenerateImages(10);
+
     float last_tick = static_cast<float>(SDL_GetTicks()) * 0.001f;
     while (!window.IsDone())
     {
