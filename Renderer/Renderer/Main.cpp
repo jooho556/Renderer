@@ -19,38 +19,6 @@ namespace
     constexpr int WINDOW_HEIGHT = 1024;
 }
 
-const glm::vec3 & GetColor()
-{
-    int remainder = rand() % 4;
-    switch (remainder)
-    {
-    case 0: return RED;
-    case 1: return PURPLE;
-    case 2: return SKY;
-    case 3: return YELLOW;
-    default: return RED;
-    }
-}
-
-void GenerateImage(const std::string & file_name, 
-    Shader * compute, 
-    Shader * star,
-    const Camera * cam, 
-    const Old::Texture * tex,
-    const std::vector<Galaxy*> & universe, Window & window)
-{
-    window.StartDraw();
-    for (auto & galaxy : universe)
-        galaxy->Draw(compute, star, cam, tex);
-
-    unsigned char * pixels = new unsigned char[3 * WINDOW_WIDTH * WINDOW_HEIGHT];
-    glReadPixels(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels);
-    stbi_write_png(file_name.c_str(), WINDOW_WIDTH, WINDOW_HEIGHT, 3, &pixels[0], 0);
-    delete[] pixels;
-
-    window.EndDraw();
-}
-
 int main(int /*argc*/, char** /*argv*/)
 {
     Window window("OpenGL");
@@ -74,6 +42,7 @@ int main(int /*argc*/, char** /*argv*/)
     Shader particle_shader("Shaders/Particle.vs", "Shaders/Particle.fs");
     Shader star_shader("Shaders/Stars.vs", "Shaders/Stars.fs");
     Shader noise_shader("Shaders/Noise.vs", "Shaders/Noise.fs");
+    Shader volume_shader("Shaders/Volume.vs", "Shaders/Volume.fs");
     Skybox space(space_cube);
     Model sphere("Models/sphere/sphere.obj");
 
@@ -86,76 +55,58 @@ int main(int /*argc*/, char** /*argv*/)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_PROGRAM_POINT_SIZE);
 
-    std::vector<float> stars;
-    int stars_num = 10000;
-    for (int i = 0; i < stars_num; ++i)
+    float rect[] =
     {
-        float  theta = Angle::DegToRad(static_cast<float>(rand() % 18000) / 100.f);
-        float phi = Angle::DegToRad(static_cast<float>(rand() % 36000) / 100.f);
-
-        float z = 50 * cos(theta);
-        float sin_theta = sin(theta);
-        float x = 50 * sin_theta * cos(phi);
-        float y = 50 * sin_theta * sin(phi);
-
-        stars.push_back(x);
-        stars.push_back(y);
-        stars.push_back(z);
-    }
-
-    unsigned int vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
-    unsigned int vbo;
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, stars.size() * sizeof(float), stars.data(), GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
-    glEnableVertexAttribArray(0);
-    particle_tex.BindTexture();
-
-    bool first_iteration = true;
-
-    float rect[] = 
-    {
-        -1.f, 1.f, 0.f, 0.f, 1.f,
-        1.f, 1.f, 0.f, 1.f, 1.f,
-        1.f, -1.f, 0.f, 1.f, 0.f,
-        -1.f, 1.f, 0.f, 0.f, 1.f,
-        1.f, -1.f, 0.f, 1.f, 0.f,
-        -1.f, -1.f, 0.f, 0.f, 0.f
+        0.f, 0.f, 0.f,  0.f, 0.f, 0.f,
+        1.f, 0.f, 0.f,  1.f, 0.f, 0.f,
+        1.f, 1.f, 0.f,  1.f, 1.f, 0.f,
+        0.f, 1.f, 0.f,  0.f, 1.f, 0.f,
+        0.f, 0.f, 1.f,  0.f, 0.f, 1.f,
+        1.f, 0.f, 1.f,  1.f, 0.f, 1.f,
+        1.f, 1.f, 1.f,  1.f, 1.f, 1.f,
+        0.f, 1.f, 1.f,   0.f, 1.f, 1.f
     };
 
-    unsigned int rect_vao;
-    glGenVertexArrays(1, &rect_vao);
-    glBindVertexArray(rect_vao);
+    unsigned int indices[] = {
+        0, 1, 4,
+        4, 1, 5,
+        1, 2, 5,
+        5, 2, 6,
+        6, 2, 3,
+        6, 3, 7,
+        7, 3, 0,
+        7, 0, 4,
+        7, 4, 5,
+        7, 5, 6,
+        0, 2, 3,
+        0, 1, 2
+    };
 
-    unsigned int rect_vbo;
-    glGenBuffers(1, &rect_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, rect_vbo);
+    unsigned int cube_vao;
+    glGenVertexArrays(1, &cube_vao);
+    glBindVertexArray(cube_vao);
+
+    unsigned int cube_vbo;
+    glGenBuffers(1, &cube_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, cube_vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(rect), &rect[0], GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
+    unsigned int cube_ebo;
+    glGenBuffers(1, &cube_ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cube_ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices[0], GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 3));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(sizeof(float) * 3));
     glEnableVertexAttribArray(1);
 
-    Old::Texture star_src("Stars.png");
-    Shader nebula_shader("Shaders/Nebula.vs", "Shaders/Nebula.fs");
+    Old::Texture transfer_func("Textures/cool-warm-paraview.png");
+    transfer_func.BindTexture();
 
-    star_src.BindTexture();
-
-    PerlinNoise perlin;
-    perlin.GenerateNoiseTexture();
-    Old::Texture noise_src("PerlinNoise.png");
-
-    /////////////////////////////////////////////////////////////////////////
     PerlinNoise3D perlin3d;
-
-    ///////////////////////////////////////////////////////////////////////////
+    perlin3d.Bind();
 
     float last_tick = static_cast<float>(SDL_GetTicks()) * 0.001f;
     while (!window.IsDone())
@@ -165,18 +116,14 @@ int main(int /*argc*/, char** /*argv*/)
         window.Update(dt);
         window.StartDraw();
         /////////////////////////////////////////////////////////////////////
-        nebula_shader.Use();
+        volume_shader.Use();
+        volume_shader.SetMat4("view", cam.GetViewMatrix());
+        volume_shader.SetMat4("projection", cam.GetProjectionMatrix());
+        volume_shader.SetVec3("eye_pos", cam.GetPosition());
+        volume_shader.SetFloat("time", current_tick);
+        volume_shader.SetVec3("u_color", glm::vec3(0.2f, 0.8f, 0.2f));
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, star_src.GetTextureHandle());
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, noise_src.GetTextureHandle());
-
-        nebula_shader.SetInt("stars", 0);
-        nebula_shader.SetInt("noise", 1);
-        //nebula_shader.SetVec3("color", glm::vec3(0.4f, 0.1f, 0.4f));
-
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         //glDrawArrays(GL_POINTS, 0, stars_num);
 
         /////////////////////////////////////////////////////////////////////
