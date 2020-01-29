@@ -35,10 +35,10 @@ Window::Window(const std::string & title)
 
     SDL_GL_SetSwapInterval(1);
 
-    //glEnable(GL_DEPTH_TEST);
-    //glDepthFunc(GL_LESS);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
   
-    glClearColor(0.05f, 0.f, 0.1f, 1.f);
+    glClearColor(0.2f, 0.5f, 0.2f, 1.f);
 
     srand(unsigned(time(0)));
 }

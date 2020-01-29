@@ -41,7 +41,7 @@ public:
 
     void KeyboardInput(float dt, const Uint8 * state)
     {
-        float move_speed = 55.f * dt;
+        float move_speed = 10.f * dt;
 
         if(state[SDL_SCANCODE_W])
             m_pos += move_speed * m_front;

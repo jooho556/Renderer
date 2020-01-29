@@ -7,7 +7,7 @@
 
 namespace
 {
-    unsigned int size = 32;
+    unsigned int size = 256;
 }
 
 PerlinNoise::PerlinNoise() : table_size(size)
@@ -182,6 +182,11 @@ PerlinNoise3D::~PerlinNoise3D()
         glDeleteTextures(1, &texture_id);
 }
 
+void PerlinNoise3D::Bind() const
+{
+    glBindTexture(GL_TEXTURE_3D, texture_id);
+}
+
 glm::vec3 PerlinNoise3D::GetPoint(float x, float y, float z) const
 {
     unsigned int grid_side_length = noise_side_length / table_size;
@@ -308,13 +313,13 @@ void PerlinNoise3D::BuildTexture3D()
     glBindTexture(GL_TEXTURE_3D, texture_id);
 
     //Texture Wrapping (0 ~ 1)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
 
     //Texture filtering - sampling
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     glTexImage3D(GL_TEXTURE_3D, 0, GL_RGB, noise_side_length, noise_side_length, noise_side_length, 0, GL_RGB, GL_FLOAT, noise_data.data());
 }
