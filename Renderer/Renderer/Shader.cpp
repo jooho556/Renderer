@@ -70,20 +70,12 @@ void Shader::SetVec3(const std::string & name, const glm::vec3 & vec) const
     glUniform3fv(location, 1, &vec[0]);
 }
 
-void Shader::SetVec2Array(const std::string & name, const glm::vec2 * array, int size) const
+void Shader::SetVec2(const std::string& name, const glm::vec2& vec) const
 {
     unsigned int location = glGetUniformLocation(m_programID, name.c_str());
     if (location == -1)
         std::cerr << "Cannot find uniform location : " << name << std::endl;
-    glUniform2fv(location, size, &(array[0][0]));
-}
-
-void Shader::SetUintArray(const std::string & name, const unsigned int * array, int size) const
-{
-    unsigned int location = glGetUniformLocation(m_programID, name.c_str());
-    if (location == -1)
-        std::cerr << "Cannot find uniform location : " << name << std::endl;
-    glUniform1uiv(location, size, array);
+    glUniform2fv(location, 1, &vec[0]);
 }
 
 unsigned int Shader::CreateShader(const std::string & source_path, ShaderType type)
