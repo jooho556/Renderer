@@ -1,7 +1,3 @@
 #pragma once
-
-namespace Constants
-{
-    unsigned int SCREEN_WIDTH = 1024;
-    unsigned int SCREEN_HEIGHT = 1024;
-}
+#define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 1080

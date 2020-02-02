@@ -22,8 +22,7 @@ public:
     void SetBoll(const std::string & name, bool value) const;
     void SetMat4(const std::string & name, const glm::mat4 & mat) const;
     void SetVec3(const std::string & name, const glm::vec3 & vec) const;
-    void SetVec2Array(const std::string & name, const glm::vec2 * array, int size) const;
-    void SetUintArray(const std::string & name, const unsigned int * array, int size) const;
+    void SetVec2(const std::string& name, const glm::vec2& vec) const;
 
     unsigned int m_programID;
 
