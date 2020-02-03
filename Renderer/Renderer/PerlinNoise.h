@@ -26,6 +26,7 @@ public:
     PerlinNoise3D();
     ~PerlinNoise3D();
 
+    void Bind() const;
     unsigned int GetTexture3DHandle() const { return texture_id; }
     unsigned int GetLength() const { return noise_side_length; }
 
