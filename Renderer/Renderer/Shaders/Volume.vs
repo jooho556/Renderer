@@ -9,11 +9,13 @@ uniform vec3 eye_pos;
 
 out vec3 o_texcoord;
 out vec3 ray_dir;
+out vec3 o_pos;
 
 void main()
 {    
     o_texcoord = aTexCoord;
     ray_dir = aPos - eye_pos;
+    o_pos = aPos;
 
     gl_Position = projection * view * vec4(aPos, 1.f);
 }

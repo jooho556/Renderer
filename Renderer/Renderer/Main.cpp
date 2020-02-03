@@ -22,32 +22,7 @@ namespace
 int main(int /*argc*/, char** /*argv*/)
 {
     Window window("OpenGL");
-    Shader lighting_shader("Shaders/PongShading.vs", "Shaders/PongShading.fs");
-    Shader basic_shader("Shaders/Basic.vs", "Shaders/Basic.fs");
-    Shader depth_shader("Shaders/Basic.vs", "Shaders/DepthTest.fs");
-    Shader cubemap_shader("Shaders/Cubemap.vs", "Shaders/Cubemap.fs");
-    Shader environment_shader("Shaders/Environment.vs", "Shaders/Environment.fs");
-
-    std::vector<std::string> space_cube = {
-        "Textures/Skybox/right.png",
-        "Textures/Skybox/left.png",
-        "Textures/Skybox/top.png",
-        "Textures/Skybox/bottom.png",
-        "Textures/Skybox/front.png",
-        "Textures/Skybox/back.png"
-    };
-
-    Shader particle_blackhole_shader("Shaders/ParticleBlackHole.cs");
-    Shader particle_compute_shader("Shaders/Particle.cs");
-    Shader particle_shader("Shaders/Particle.vs", "Shaders/Particle.fs");
-    Shader star_shader("Shaders/Stars.vs", "Shaders/Stars.fs");
-    Shader noise_shader("Shaders/Noise.vs", "Shaders/Noise.fs");
-    Shader volume_shader("Shaders/Volume.vs", "Shaders/Volume.fs");
-    Skybox space(space_cube);
-    Model sphere("Models/sphere/sphere.obj");
-
     const Camera & cam = window.GetCamera();
-    Old::Texture particle_tex("Textures/RadialGradient.png");
 
     glEnable(GL_POINT_SPRITE);
     glEnable(GL_BLEND);
@@ -102,11 +77,9 @@ int main(int /*argc*/, char** /*argv*/)
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(sizeof(float) * 3));
     glEnableVertexAttribArray(1);
 
-    Old::Texture transfer_func("Textures/cool-warm-paraview.png");
-    transfer_func.BindTexture();
-
-    PerlinNoise3D perlin3d;
-    perlin3d.Bind();
+    Shader volume_shdr("Shaders/volume.vs", "Shaders/volume.fs");
+    //PerlinNoise3D perlin3d;
+    //perlin3d.Bind();
 
     float last_tick = static_cast<float>(SDL_GetTicks()) * 0.001f;
     while (!window.IsDone())
@@ -116,12 +89,12 @@ int main(int /*argc*/, char** /*argv*/)
         window.Update(dt);
         window.StartDraw();
         /////////////////////////////////////////////////////////////////////
-        volume_shader.Use();
-        volume_shader.SetMat4("view", cam.GetViewMatrix());
-        volume_shader.SetMat4("projection", cam.GetProjectionMatrix());
-        volume_shader.SetVec3("eye_pos", cam.GetPosition());
-        volume_shader.SetFloat("time", current_tick);
-        volume_shader.SetVec3("u_color", glm::vec3(0.2f, 0.8f, 0.2f));
+        volume_shdr.Use();
+        volume_shdr.SetMat4("view", cam.GetViewMatrix());
+        volume_shdr.SetMat4("projection", cam.GetProjectionMatrix());
+        volume_shdr.SetVec3("eye_pos", cam.GetPosition());
+        volume_shdr.SetFloat("time", current_tick);
+        volume_shdr.SetVec3("u_color", glm::vec3(0.2f, 0.8f, 0.2f));
 
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         //glDrawArrays(GL_POINTS, 0, stars_num);
