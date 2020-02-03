@@ -8,7 +8,7 @@ class Camera
 {
 public:
     Camera(unsigned int window_width, unsigned int window_height,
-        const glm::vec3 & pos = glm::vec3(0.f, 0.f, 0.f), const glm::vec3 & front = glm::vec3(0, 0, -1.f))
+        const glm::vec3 & pos = glm::vec3(0.5f, 0.5f, 2.f), const glm::vec3 & front = glm::vec3(0, 0, -1.f))
     : m_projection(glm::perspective(glm::radians(90.f), (float)window_width / (float)window_height, 0.1f, 1000.f)),
         m_pos(pos), 
         m_last_x(static_cast<float>(window_width / 2)), 
