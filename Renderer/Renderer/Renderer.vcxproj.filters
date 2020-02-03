@@ -166,5 +166,11 @@
     <None Include="Shaders\Noise.fs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
+    <None Include="Shaders\Volume.fs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Volume.vs">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>
