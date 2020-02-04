@@ -19,7 +19,7 @@ int main(int /*argc*/, char** /*argv*/)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_PROGRAM_POINT_SIZE);
     glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT_FACE);
+    glCullFace(GL_FRONT);
 
     float rect[] =
     {
@@ -38,14 +38,14 @@ int main(int /*argc*/, char** /*argv*/)
         4, 1, 5,
         1, 2, 5,
         5, 2, 6,
-        6, 2, 3,
+        2, 3, 6,
         6, 3, 7,
-        7, 3, 0,
+        3, 0, 7,
         7, 0, 4,
-        7, 4, 5,
+        4, 5, 7,
         7, 5, 6,
-        0, 2, 3,
-        0, 1, 2
+        3, 2, 0,
+        0, 2, 1
     };
 
     unsigned int cube_vao;
@@ -73,6 +73,19 @@ int main(int /*argc*/, char** /*argv*/)
     perlin3d.Bind();
     Old::Texture transfer_func("Textures/cool-warm-paraview.png");
     transfer_func.BindTexture();
+
+    //Shader nebula_shdr("Shaders/Nebula.vs", "Shaders/Nebula.fs");
+
+    //////////////////////////////
+    //PBO
+
+    std::vector<unsigned char> buf;
+    unsigned int buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_SHADER_STORAGE_BUFFER, buffer);
+
+
+    //////////////////////////////
 
     float last_tick = static_cast<float>(SDL_GetTicks()) * 0.001f;
     while (!window.IsDone())
