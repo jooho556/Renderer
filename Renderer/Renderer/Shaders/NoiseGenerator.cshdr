@@ -1,3 +1,64 @@
 #version 440 core
 
-layout(local_size_x = 256, local_size_y = 256, local_size_z = 256) in;
+layout(local_size_x = 64, local_size_y = 64, local_size_z = 64) in;
+
+layout(std140, binding = 0) buffer Texture
+{
+    float voxel[];
+};
+
+layout(std140, binding = 1) buffer Gradients
+{
+    vec4 gradients[];
+};
+
+layout(std140, binding = 2) buffer PTable
+{
+    uint permutation_table[];
+};
+
+uniform int table_size;
+uniform int noise_side_length;
+
+vec3 GetPoint(float x, float y, float z)
+{
+    uint grid_size_length = noise_side_length / table_size;
+    return vec3(x / grid_size_length, y / grid_size_length, z / grid_size_length);
+}
+
+uint Hash(uint x, uint y, uint z)
+{
+    return permutation_table[(permutation_table[(permutation_table[x] + y) % table_size] + z) % table_size];
+}
+
+float GetPerlinNoise(vec3 p)
+{
+    int table_size_mask = table_size - 1;
+
+    //Eight corners
+    int xi0 = floor(p.x) & table_size_mask;
+    int yi0 = floor(p.y) & table_size_mask;
+    int zi0 = floor(p.z) & table_size_mask;
+    int xi1 = (xi0 + 1) & table_size_mask;
+    int xi1 = (yi0 + 1) & table_size_mask;
+    int xi1 = (zi0 + 1) & table_size_mask;
+
+    //Fractional part of local grid
+
+}
+
+float FractalSum(vec3 p, int layer_num)
+{
+    float n = 0.;
+    for(int i = 0; i < layer_num; ++i)
+    {
+        n += GetPerlinNoise(p);
+        p /= 2.;
+    }
+    return n;
+}
+
+void main()
+{
+    
+}

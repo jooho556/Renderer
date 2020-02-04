@@ -77,13 +77,66 @@ int main(int /*argc*/, char** /*argv*/)
     //Shader nebula_shdr("Shaders/Nebula.vs", "Shaders/Nebula.fs");
 
     //////////////////////////////
-    //PBO
+    //3D Texture
+     int table_size = 128;
+     int noise_side_length = 512;
+     int invocation_num = noise_side_length / table_size;
+     int texture_byte_size = static_cast<unsigned int>(std::pow(table_size, 3) * std::pow(invocation_num, 3));
 
-    std::vector<unsigned char> buf;
+    unsigned int noise3d;
+    glGenTextures(1, &noise3d);
+    glBindTexture(GL_TEXTURE_3D, noise3d);
+
+    //Texture Wrapping (0 ~ 1)
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+
+    //Texture filtering - sampling
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    //PBO
     unsigned int buffer;
     glGenBuffers(1, &buffer);
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, buffer);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, buffer);
+    glBufferStorage(GL_SHADER_STORAGE_BUFFER, texture_byte_size, 0, 0);
 
+    std::vector<glm::vec4> gradients;
+    std::vector<unsigned int> permutation_table;
+    //Generate random gradients
+    for (unsigned int i = 0; i < table_size; ++i)
+    {
+        float x = ((rand() % 1000) / 1000.f) * 2 - 1;
+        float y = ((rand() % 1000) / 1000.f) * 2 - 1;
+        float z = ((rand() % 1000) / 1000.f) * 2 - 1;
+        gradients.push_back(glm::normalize(glm::vec4(x, y, z, 0)));
+        permutation_table.push_back(i);
+    }
+
+    //Shuffle p table for hashing
+    std::random_shuffle(permutation_table.begin(), permutation_table.end());
+
+    unsigned int grad_buf, permutation_buf;
+    glGenBuffers(1, &grad_buf);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, grad_buf);
+    glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(glm::vec4) * gradients.size(), 
+        gradients.data(), GL_STATIC_DRAW);
+
+    glGenBuffers(1, &permutation_buf);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, permutation_buf);
+    glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(unsigned int) * permutation_table.size(), 
+        permutation_table.data(), GL_STATIC_DRAW);
+
+    Shader noise_compute_shdr("Shaders/NoiseGenerator.cshdr");
+    noise_compute_shdr.Use();
+    noise_compute_shdr.SetInt("table_size", table_size);
+    noise_compute_shdr.SetInt("noise_side_length", noise_side_length);
+    glDispatchCompute(table_size, table_size, table_size);
+    glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, buffer);
+    glCompressedTexImage3D(GL_TEXTURE_3D, 0, GL_RED, table_size, table_size, table_size, 0, texture_byte_size, 0);
 
     //////////////////////////////
 
