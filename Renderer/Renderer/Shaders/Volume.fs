@@ -11,7 +11,7 @@ uniform vec3 eye_pos;
 uniform float time;
 
 const float max_distance = sqrt(3);
-const int num_sample = 512;
+const int num_sample = 128;
 const float step_size = max_distance / float(num_sample);
 
  struct Cube
@@ -57,7 +57,7 @@ void main()
 { 
     vec3 ray_origin = eye_pos;
     vec3 ray_dir = normalize(o_pos - eye_pos);
-    Ray ray = Ray(eye_pos, ray_dir);
+    Ray ray = Ray(ray_origin, ray_dir);
     Cube cube = Cube(vec3(0, 0, 0), vec3(1, 1, 1));
     vec4 col = vec4(0.);
 
@@ -77,15 +77,18 @@ void main()
         {
             float val = texture(noise, pos).r;
             
-            if(col.a > 0.95) break;
-            col += val  / 100.;
+            float alpha = (1. - col.a) * val;
+            col.rgb += alpha * vec3(val);
+            col.a += alpha;
+
+            if(col.a > 0.95) break;          
         }
     }
     else
     {
         col = vec4(1.);
     }
-    
+
     frag_color = col;
 }
 

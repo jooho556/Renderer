@@ -25,6 +25,12 @@
     <Filter Include="소스 파일\Galaxy">
       <UniqueIdentifier>{b18321ef-278b-4132-a7de-fe73167426fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Noise">
+      <UniqueIdentifier>{33f6868e-e4ad-42f5-845e-896dc9212072}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일\Shader\Compute Shaders">
+      <UniqueIdentifier>{3a497ad2-c2e8-498b-ae6c-da33c1900f69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shader.cpp">
@@ -58,7 +64,10 @@
       <Filter>소스 파일\External</Filter>
     </ClCompile>
     <ClCompile Include="PerlinNoise.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\Noise</Filter>
+    </ClCompile>
+    <ClCompile Include="NoiseGenerator.cpp">
+      <Filter>소스 파일\Noise</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,11 +104,14 @@
     <ClInclude Include="stb_image_write.h">
       <Filter>소스 파일\External</Filter>
     </ClInclude>
-    <ClInclude Include="PerlinNoise.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinNoise.h">
+      <Filter>소스 파일\Noise</Filter>
+    </ClInclude>
+    <ClInclude Include="NoiseGenerator.h">
+      <Filter>소스 파일\Noise</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -136,9 +148,6 @@
     <None Include="Shaders\Particle.vs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
-    <None Include="Shaders\Particle.cs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
     <None Include="Shaders\ParticleBlackHole.cs">
       <Filter>리소스 파일\Shader</Filter>
     </None>
@@ -171,6 +180,12 @@
     </None>
     <None Include="Shaders\Volume.vs">
       <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Particle.cs">
+      <Filter>리소스 파일\Shader\Compute Shaders</Filter>
+    </None>
+    <None Include="Shaders\NoiseGenerator.cshdr">
+      <Filter>리소스 파일\Shader\Compute Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>
