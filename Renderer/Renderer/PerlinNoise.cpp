@@ -310,7 +310,7 @@ void PerlinNoise3D::BuildTexture3D()
         [maximum_value](float& noise)
         {
             noise /= maximum_value; 
-            noise = std::powf(noise, 10);
+            //noise = std::powf(noise, 10);
         });
 
     glGenTextures(1, &texture_id);
