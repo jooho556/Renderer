@@ -69,8 +69,8 @@ int main(int /*argc*/, char** /*argv*/)
     glEnableVertexAttribArray(1);
 
     Shader volume_shdr("Shaders/volume.vs", "Shaders/volume.fs");
-    PerlinNoise3D perlin3d;
-    perlin3d.Bind();
+    //PerlinNoise3D perlin3d;
+    //perlin3d.Bind();
     Old::Texture transfer_func("Textures/cool-warm-paraview.png");
     transfer_func.BindTexture();
 
@@ -78,10 +78,12 @@ int main(int /*argc*/, char** /*argv*/)
 
     //////////////////////////////
     //3D Texture
-     int table_size = 128;
-     int noise_side_length = 512;
+     int table_size = 2;
+     int noise_side_length = 4;
      int invocation_num = noise_side_length / table_size;
      int texture_byte_size = static_cast<unsigned int>(std::pow(table_size, 3) * std::pow(invocation_num, 3));
+
+     Shader noise_compute_shdr("Shaders/NoiseGenerator.cshdr");
 
     unsigned int noise3d;
     glGenTextures(1, &noise3d);
@@ -105,12 +107,13 @@ int main(int /*argc*/, char** /*argv*/)
     std::vector<glm::vec4> gradients;
     std::vector<unsigned int> permutation_table;
     //Generate random gradients
-    for (unsigned int i = 0; i < table_size; ++i)
+    for (int i = 0; i < table_size; ++i)
     {
         float x = ((rand() % 1000) / 1000.f) * 2 - 1;
         float y = ((rand() % 1000) / 1000.f) * 2 - 1;
         float z = ((rand() % 1000) / 1000.f) * 2 - 1;
-        gradients.push_back(glm::normalize(glm::vec4(x, y, z, 0)));
+        glm::vec3 n = glm::normalize(glm::vec3(x, y, z));
+        gradients.push_back(glm::vec4(n.x, n.y, n.z, 0));
         permutation_table.push_back(i);
     }
 
@@ -120,15 +123,14 @@ int main(int /*argc*/, char** /*argv*/)
     unsigned int grad_buf, permutation_buf;
     glGenBuffers(1, &grad_buf);
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, grad_buf);
-    glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(glm::vec4) * gradients.size(), 
+    glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(glm::vec4)* gradients.size(),
         gradients.data(), GL_STATIC_DRAW);
-
+    
     glGenBuffers(1, &permutation_buf);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, permutation_buf);
-    glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(unsigned int) * permutation_table.size(), 
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, permutation_buf);    
+    glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(unsigned int)* permutation_table.size(),
         permutation_table.data(), GL_STATIC_DRAW);
-
-    Shader noise_compute_shdr("Shaders/NoiseGenerator.cshdr");
+    
     noise_compute_shdr.Use();
     noise_compute_shdr.SetInt("table_size", table_size);
     noise_compute_shdr.SetInt("noise_side_length", noise_side_length);
@@ -136,7 +138,10 @@ int main(int /*argc*/, char** /*argv*/)
     glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, buffer);
-    glCompressedTexImage3D(GL_TEXTURE_3D, 0, GL_RED, table_size, table_size, table_size, 0, texture_byte_size, 0);
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_RED, table_size, table_size, table_size, 0, GL_RED, GL_FLOAT, 0);
+
+    /*PerlinNoise3D noise;
+    noise.Bind();*/
 
     //////////////////////////////
 
@@ -152,7 +157,7 @@ int main(int /*argc*/, char** /*argv*/)
         volume_shdr.SetMat4("view", cam.GetViewMatrix());
         volume_shdr.SetMat4("projection", cam.GetProjectionMatrix());
         volume_shdr.SetVec3("eye_pos", cam.GetPosition());
-        volume_shdr.SetFloat("time", current_tick);
+        //volume_shdr.SetFloat("time", current_tick);
 
         glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         //glDrawArrays(GL_POINTS, 0, stars_num);
