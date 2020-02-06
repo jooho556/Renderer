@@ -124,6 +124,6 @@ void main()
     vec3 id = gl_GlobalInvocationID;
     int index = int(noise_side_length * noise_side_length * id.z + 
         noise_side_length * id.y + id.x);
-    float n  = FractalSum(GetPoint(id.x, id.y, id.z), 1);
-    voxel[index] = n;//pow(n, 5) * 10;
+    float n  = FractalSum(GetPoint(id.x, id.y, id.z), 8);
+    voxel[index] = pow(n, 10) * 100;
 }

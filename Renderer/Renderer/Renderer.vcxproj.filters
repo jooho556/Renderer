@@ -63,10 +63,10 @@
     <ClCompile Include="stbi_image_write.cpp">
       <Filter>소스 파일\External</Filter>
     </ClCompile>
-    <ClCompile Include="PerlinNoise.cpp">
+    <ClCompile Include="PerlinNoiseC++.cpp">
       <Filter>소스 파일\Noise</Filter>
     </ClCompile>
-    <ClCompile Include="NoiseGenerator.cpp">
+    <ClCompile Include="PerlinNoise.cpp">
       <Filter>소스 파일\Noise</Filter>
     </ClCompile>
   </ItemGroup>
@@ -107,10 +107,10 @@
     <ClInclude Include="Constants.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PerlinNoise.h">
+    <ClInclude Include="PerlinNoiseC++.h">
       <Filter>소스 파일\Noise</Filter>
     </ClInclude>
-    <ClInclude Include="NoiseGenerator.h">
+    <ClInclude Include="PerlinNoise.h">
       <Filter>소스 파일\Noise</Filter>
     </ClInclude>
   </ItemGroup>

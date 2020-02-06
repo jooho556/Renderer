@@ -30,7 +30,7 @@ void Galaxy::Draw(Shader * compute, Shader * star,
 {
     glBindVertexArray(vao);
 
-    //glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, particle_buf);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, particle_buf);
     tex->BindTexture();
 
     //Update position
@@ -73,7 +73,7 @@ void Galaxy::CreateGalaxy(float ellipse_rad_a, float ellipse_eccentricity)
 {
     std::vector<ParticleInfo> particles;
 
-    int particle_num_scale = rand() % 4 + 1;
+    int particle_num_scale = rand() % 10 + 1;
 
     Ellipse ellipse(ellipse_rad_a, ellipse_eccentricity);
     for (float rotate_angle = 0.f; rotate_angle < Angle::PI * 1.5f; rotate_angle += 0.016f)

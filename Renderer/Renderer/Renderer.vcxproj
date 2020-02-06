@@ -163,8 +163,8 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="NoiseGenerator.cpp" />
     <ClCompile Include="PerlinNoise.cpp" />
+    <ClCompile Include="PerlinNoiseC++.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="stbi_image_write.cpp" />
@@ -179,8 +179,8 @@
     <ClInclude Include="Galaxy.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="NoiseGenerator.h" />
     <ClInclude Include="PerlinNoise.h" />
+    <ClInclude Include="PerlinNoiseC++.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="stb_image.h" />
