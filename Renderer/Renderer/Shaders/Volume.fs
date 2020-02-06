@@ -73,15 +73,15 @@ void main()
         vec3 pos = ray_start;
         vec3 step = normalize(ray_end - ray_start) * step_size;
         float travel = distance(ray_end, ray_start);
-        for(int i = 0; i < num_sample && travel > 0.; pos += step, travel -= step_size)
+        for(int i = 0; i < num_sample && travel > 0.; pos += step, travel -= step_size, ++i)
         {
             float val = texture(noise, pos).r;
-            col = vec4(val, val, val, 1.);
-            //float alpha = (1. - col.a) * val;
-            //col.rgb += alpha * vec3(val);
-            //col.a += alpha;
+            //col = vec4(val, val, val, 1.);
+            float alpha = (1. - col.a) * val;
+            col.rgb += alpha * vec3(val);
+            col.a += alpha;
 
-            //if(col.a > 0.95) break;          
+            if(col.a > 0.95) break;          
         }
     }
     else
