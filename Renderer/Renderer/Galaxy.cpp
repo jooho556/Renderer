@@ -26,7 +26,7 @@ Galaxy::~Galaxy()
 }
 
 void Galaxy::Draw(Shader * compute, Shader * star, 
-    const Camera * cam, const Old::Texture * tex)
+    const Camera * cam, const Texture * tex)
 {
     glBindVertexArray(vao);
 
