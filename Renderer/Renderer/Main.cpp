@@ -1,6 +1,5 @@
 #include "Window.h"
 #include "Shader.h"
-#include "Model.h"
 #include "Skybox.h"
 #include "Texture.h"
 #include "Galaxy.h"
@@ -25,7 +24,7 @@ int main(int /*argc*/, char** /*argv*/)
     Galaxy galaxy(glm::vec3(0, 0, -100), glm::vec3(0.4f, 0.4, 0.8f), 1., 1.2);
     Shader galaxy_compute("Shaders/Particle.cs");
     Shader star_shdr("Shaders/Stars.vs", "Shaders/Stars.fs");
-    Old::Texture particle_tex("Textures/star.png");
+    Texture particle_tex("Textures/star.png");
 
     float last_tick = static_cast<float>(SDL_GetTicks()) * 0.001f;
     while (!window.IsDone())
