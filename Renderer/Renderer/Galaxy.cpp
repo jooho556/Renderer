@@ -25,7 +25,7 @@ Galaxy::~Galaxy()
     glDeleteBuffers(1, &particle_buf);
 }
 
-void Galaxy::Draw(Shader * compute, Shader * star, 
+void Galaxy::Draw(ComputeShader * compute, Shader * star, 
     const Camera * cam, const Texture * tex)
 {
     glBindVertexArray(vao);

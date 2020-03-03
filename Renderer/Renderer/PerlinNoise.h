@@ -16,7 +16,7 @@ private:
     void Bind();
     void Unbind();
 
-    Shader noise_compute;
+    ComputeShader noise_compute;
     Shader volume_shdr;
     unsigned int table_size;
     unsigned int noise_length;
