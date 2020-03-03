@@ -103,77 +103,77 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\PongShading.fs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\PongShading.vs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\GouraudShading.vs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Basic.vs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Basic.fs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\GouraudShading.fs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\DepthTest.fs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Cubemap.fs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Cubemap.vs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Particle.fs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Particle.vs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\ParticleBlackHole.cs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Nebula.fs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Nebula.vs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Environment.fs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Environment.vs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Stars.vs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Stars.fs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Noise.vs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Noise.fs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Volume.fs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Volume.vs">
-      <Filter>리소스 파일\Shader</Filter>
-    </None>
-    <None Include="Shaders\Particle.cs">
+    <None Include="Shaders\Particle.comp">
       <Filter>리소스 파일\Shader\Compute Shaders</Filter>
     </None>
-    <None Include="Shaders\NoiseGenerator.cshdr">
+    <None Include="Shaders\NoiseGenerator.comp">
       <Filter>리소스 파일\Shader\Compute Shaders</Filter>
+    </None>
+    <None Include="Shaders\Basic.frag">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Cubemap.frag">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\DepthTest.frag">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Environment.frag">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\GouraudShading.frag">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Nebula.frag">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Noise.frag">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Particle.frag">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\PongShading.frag">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Stars.frag">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Volume.frag">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Volume.vert">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Stars.vert">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\PongShading.vert">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Particle.vert">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Noise.vert">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Nebula.vert">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\GouraudShading.vert">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Environment.vert">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Cubemap.vert">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\Basic.vert">
+      <Filter>리소스 파일\Shader</Filter>
+    </None>
+    <None Include="Shaders\ParticleBlackHole.comp">
+      <Filter>리소스 파일\Shader</Filter>
     </None>
   </ItemGroup>
 </Project>
