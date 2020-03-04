@@ -22,20 +22,23 @@
     <Filter Include="소스 파일\Main">
       <UniqueIdentifier>{26454c70-8532-4444-9bc9-a8b94f246c64}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Galaxy">
-      <UniqueIdentifier>{b18321ef-278b-4132-a7de-fe73167426fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Noise">
-      <UniqueIdentifier>{33f6868e-e4ad-42f5-845e-896dc9212072}</UniqueIdentifier>
-    </Filter>
     <Filter Include="리소스 파일\Shader\Compute Shaders">
       <UniqueIdentifier>{3a497ad2-c2e8-498b-ae6c-da33c1900f69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\OpenGL">
+      <UniqueIdentifier>{186fc1f9-9e48-44c3-b42a-897ebcf2dea6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Celestials">
+      <UniqueIdentifier>{7a5fdf52-3634-45d4-af4d-0a7fb699ee98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Celestials\Galaxy">
+      <UniqueIdentifier>{b18321ef-278b-4132-a7de-fe73167426fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Celestials\Noise">
+      <UniqueIdentifier>{33f6868e-e4ad-42f5-845e-896dc9212072}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Shader.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>소스 파일\External</Filter>
     </ClCompile>
@@ -45,29 +48,29 @@
     <ClCompile Include="Window.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
-    <ClCompile Include="Skybox.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Galaxy.cpp">
-      <Filter>소스 파일\Galaxy</Filter>
+      <Filter>소스 파일\Celestials\Galaxy</Filter>
     </ClCompile>
     <ClCompile Include="stbi_image_write.cpp">
       <Filter>소스 파일\External</Filter>
     </ClCompile>
     <ClCompile Include="PerlinNoiseC++.cpp">
-      <Filter>소스 파일\Noise</Filter>
+      <Filter>소스 파일\Celestials\Noise</Filter>
     </ClCompile>
     <ClCompile Include="PerlinNoise.cpp">
-      <Filter>소스 파일\Noise</Filter>
+      <Filter>소스 파일\Celestials\Noise</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Shader.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>소스 파일\External</Filter>
     </ClInclude>
@@ -77,17 +80,11 @@
     <ClInclude Include="Window.h">
       <Filter>소스 파일\Main</Filter>
     </ClInclude>
-    <ClInclude Include="Skybox.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Galaxy.h">
-      <Filter>소스 파일\Galaxy</Filter>
+      <Filter>소스 파일\Celestials\Galaxy</Filter>
     </ClInclude>
     <ClInclude Include="Ellipse.h">
-      <Filter>소스 파일\Galaxy</Filter>
+      <Filter>소스 파일\Celestials\Galaxy</Filter>
     </ClInclude>
     <ClInclude Include="stb_image_write.h">
       <Filter>소스 파일\External</Filter>
@@ -96,10 +93,22 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="PerlinNoiseC++.h">
-      <Filter>소스 파일\Noise</Filter>
+      <Filter>소스 파일\Celestials\Noise</Filter>
     </ClInclude>
     <ClInclude Include="PerlinNoise.h">
-      <Filter>소스 파일\Noise</Filter>
+      <Filter>소스 파일\Celestials\Noise</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>소스 파일\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GLObject.h">
+      <Filter>소스 파일\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

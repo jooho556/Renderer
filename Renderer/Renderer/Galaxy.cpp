@@ -26,7 +26,7 @@ Galaxy::~Galaxy()
 }
 
 void Galaxy::Draw(ComputeShader * compute, Shader * star, 
-    const Camera * cam, const Texture * tex)
+    const Camera * cam, const Texture2D * tex)
 {
     glBindVertexArray(vao);
 
@@ -36,8 +36,7 @@ void Galaxy::Draw(ComputeShader * compute, Shader * star,
     //Update position
     compute->Use();
     compute->SetFloat("PI", Angle::PI);
-    glDispatchCompute(particle_num / 1000 + 1, 1, 1);
-    glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+    compute->Compute(particle_num / 1000 + 1);
 
     //Draw nebula
     star->Use();

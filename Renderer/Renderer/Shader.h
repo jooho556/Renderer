@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
 #include <glm/glm.hpp>
+#include "GLObject.h"
 
-class ShaderBase
+class ShaderBase : public GLObject
 {
 public:
     //Binding
@@ -19,31 +20,21 @@ public:
 protected:
     //Must be inherited!
     ShaderBase() {}
-    ShaderBase(const ShaderBase & sb) { Copy(sb); }
-    ShaderBase(ShaderBase && sb) { Copy(sb); }
-    virtual ~ShaderBase();
-    ShaderBase& operator=(const ShaderBase & sb) = delete;
+    ShaderBase(const ShaderBase & sb) : GLObject(sb) {}
+    ShaderBase(ShaderBase && sb) : GLObject(sb) {}
+    virtual ~ShaderBase() override;
 
 protected:
-    void Copy(const ShaderBase & sb) {
-        m_program_id = sb.m_program_id;
-        sb.is_copied = true;
-    }
     unsigned int CheckUniformLocation(const std::string & name) const;
     void CheckProgramLink(unsigned int program_id) const;
     unsigned int CreateShader(const std::string & source_path, unsigned int shader_type);
     void CompileShader(unsigned int shader);
-
-    unsigned int m_program_id = -1;
-    mutable bool is_copied = false;
 };
 
-
-class Shader : public ShaderBase
+class Shader : public ShaderBase //Pipeline shader
 {
 public:
     Shader(const std::string & vertex_path , const std::string & fragment_path);
-    ~Shader() override {}
 
 private:
     void CreateProgram(unsigned int vertex, unsigned int fragment);
@@ -53,8 +44,10 @@ class ComputeShader : public ShaderBase
 {
 public:
     ComputeShader(const std::string & compute_path);
-    ~ComputeShader() override {}
-    
+
+    void Compute(unsigned int groupnum_x = 1, unsigned int groupnum_y = 1, 
+        unsigned int groupnum_z = 1, int barrier_type = 0x2000); //GL_BUFFER_UPDATE_BARRIER_BIT
+
 private:
     void CreateProgram(unsigned int compute);
 };

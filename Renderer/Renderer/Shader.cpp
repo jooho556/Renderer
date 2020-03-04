@@ -13,7 +13,7 @@ namespace
 // ShaderBase Implementation
 //////////
 
-void ShaderBase::Use() const { glUseProgram(m_program_id); }
+void ShaderBase::Use() const { glUseProgram(m_id); }
 
 //Uniform setting
 void ShaderBase::SetFloat(const std::string & name, float value) const {
@@ -41,12 +41,12 @@ void ShaderBase::SetVec2(const std::string& name, const glm::vec2& vec) const {
 }
 
 ShaderBase::~ShaderBase() {
-    if (!is_copied) glDeleteProgram(m_program_id);
+    if (!m_is_copied) glDeleteProgram(m_id);
 }
 
 unsigned int ShaderBase::CheckUniformLocation(const std::string & name) const
 {
-    unsigned int location = glGetUniformLocation(m_program_id, name.c_str());
+    unsigned int location = glGetUniformLocation(m_id, name.c_str());
     if (location == -1)
     {
         std::cout << "ERROR: CAN'T FIND UNIFORM LOCATION: " << name << std::endl;
@@ -121,12 +121,12 @@ Shader::Shader(const std::string & vertex_path, const std::string & fragment_pat
 
 void Shader::CreateProgram(unsigned int vertex, unsigned int fragment)
 {
-    m_program_id = glCreateProgram();
-    glAttachShader(m_program_id, vertex);
-    glAttachShader(m_program_id, fragment);
-    glLinkProgram(m_program_id);
+    m_id = glCreateProgram();
+    glAttachShader(m_id, vertex);
+    glAttachShader(m_id, fragment);
+    glLinkProgram(m_id);
 
-    CheckProgramLink(m_program_id);
+    CheckProgramLink(m_id);
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);
@@ -144,13 +144,20 @@ ComputeShader::ComputeShader(const std::string & compute_path)
     CreateProgram(compute);
 }
 
+void ComputeShader::Compute(unsigned int groupnum_x, unsigned int groupnum_y, 
+    unsigned int groupnum_z, int barrier_type)
+{
+    glDispatchCompute(groupnum_x, groupnum_y, groupnum_z);
+    glMemoryBarrier(barrier_type);
+}
+
 void ComputeShader::CreateProgram(unsigned int compute)
 {
-    m_program_id = glCreateProgram();
-    glAttachShader(m_program_id, compute);
-    glLinkProgram(m_program_id);
+    m_id = glCreateProgram();
+    glAttachShader(m_id, compute);
+    glLinkProgram(m_id);
 
-    CheckProgramLink(m_program_id);
+    CheckProgramLink(m_id);
 
     glDeleteShader(compute);
 }
