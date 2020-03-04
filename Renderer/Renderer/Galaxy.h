@@ -4,7 +4,7 @@
 class ComputeShader;
 class Shader;
 class Camera;
-class Texture;
+class Texture2D;
 class Galaxy
 {
 public:
@@ -12,7 +12,7 @@ public:
         const glm::vec3 & star_color = glm::vec3(1.f, 1.f, 1.f));
     ~Galaxy();
 
-    void Draw(ComputeShader * compute, Shader * star, const Camera * cam, const Texture * tex);
+    void Draw(ComputeShader * compute, Shader * star, const Camera * cam, const Texture2D * tex);
     void SetPosition(const glm::vec3 & position) { pos = position; }
     void SetColor(const glm::vec3 & n_color) { nebula_color = n_color; }
 

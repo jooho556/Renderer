@@ -22,10 +22,18 @@ int main(int /*argc*/, char** /*argv*/)
     PerlinNoise noise(table_size);
 
     Galaxy galaxy(glm::vec3(0, 0, -100), glm::vec3(0.4f, 0.4, 0.8f), 1., 1.2);
-    ComputeShader galaxy_compute("Shaders/Particle.comp");
-    Shader star_shdr("Shaders/Stars.vert", "Shaders/Stars.frag");
-    Texture particle_tex("Textures/star.png");
 
+    Shader star_shdr("Shaders/Stars.vert", "Shaders/Stars.frag");
+
+
+    std::vector<ComputeShader> s;
+    std::vector<Texture2D> t;
+    {
+        ComputeShader galaxy_compute("Shaders/Particle.comp");
+        s.push_back(galaxy_compute);
+        Texture2D particle_tex("Textures/star.png");
+        t.push_back(particle_tex);
+    }
     float last_tick = static_cast<float>(SDL_GetTicks()) * 0.001f;
     while (!window.IsDone())
     {
@@ -36,7 +44,7 @@ int main(int /*argc*/, char** /*argv*/)
         /////////////////////////////////////////////////////////////////////
 
         noise.Draw(cam);
-        galaxy.Draw(&galaxy_compute, &star_shdr, &cam, &particle_tex);
+        galaxy.Draw(&s[0], &star_shdr, &cam, &t[0]);
 
         /////////////////////////////////////////////////////////////////////
         window.EndDraw();

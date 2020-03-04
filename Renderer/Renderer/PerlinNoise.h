@@ -1,6 +1,7 @@
 #pragma once
 #include "Shader.h"
 #include "Camera.h"
+#include "Texture.h"
 
 class PerlinNoise // Perlin noise
 {
@@ -18,9 +19,9 @@ private:
 
     ComputeShader noise_compute;
     Shader volume_shdr;
+    Texture3D noise;
     unsigned int table_size;
     unsigned int noise_length;
     unsigned int vao, vbo, ebo;
-    unsigned int noise_texture;
     unsigned int pbo;    
 };

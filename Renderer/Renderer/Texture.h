@@ -1,29 +1,63 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "GLObject.h"
 
-class Texture
+class TextureBase : public GLObject
 {
 public:
-    Texture() {}
-    Texture(const std::string & texture_path);
-    Texture(const std::vector<std::string> & texture_paths);
-    ~Texture();
+    TextureBase(int texture_type);
 
-    void LoadTexture(const std::string& texture_path);
+    TextureBase(const TextureBase & tb)
+        : GLObject(tb), m_texture_type(tb.m_texture_type),
+        m_width(tb.m_width), m_height(tb.m_height), m_nr_channels(tb.m_nr_channels) {}
+
+    TextureBase(TextureBase && tb)
+        : GLObject(tb), m_texture_type(tb.m_texture_type),
+        m_width(tb.m_width), m_height(tb.m_height), m_nr_channels(tb.m_nr_channels) {}
+
+    virtual ~TextureBase() override;
+
     void BindTexture() const;
     void UnbindTexture() const;
-    unsigned int GetTextureHandle() const { return texture_units[0]; }
+    
+    virtual void LoadTexture(const std::string & texture_path) = 0;
 
-    //unsigned int m_textureID = 0;
-
-private:
-    void LoadTexture(const std::string& texture_path, unsigned int textureID);
-
+protected:
+    int m_texture_type = -1;
     int m_width = 0;
     int m_height = 0;
     int m_nr_channels = 0;
+};
 
-    std::vector<unsigned int> texture_units;
+class Texture1D : public TextureBase
+{
+public:
+    Texture1D();
+    Texture1D(const std::string & texture_path);
+
+    virtual void LoadTexture(const std::string& texture_path) override;
+    void LoadTexture(int width, int height, int format, unsigned char * data = nullptr);
+};
+
+class Texture2D : public TextureBase
+{
+public:
+    Texture2D();
+    Texture2D(const std::string & texture_path);
+
+    virtual void LoadTexture(const std::string& texture_path) override;
+    void LoadTexture(int width, int height, int format, unsigned char * data = nullptr);
+};
+
+class Texture3D : public TextureBase
+{
+public:
+    Texture3D();
+    void LoadTexture(int width, int height, int depth, int format, unsigned char * data = nullptr);
+
+private:
+    virtual void LoadTexture(const std::string& texture_path) override {}
+    int m_depth = 0;
 };
 

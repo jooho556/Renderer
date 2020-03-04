@@ -175,6 +175,7 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Ellipse.h" />
     <ClInclude Include="Galaxy.h" />
+    <ClInclude Include="GLObject.h" />
     <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="PerlinNoiseC++.h" />
     <ClInclude Include="Shader.h" />

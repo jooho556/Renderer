@@ -5,8 +5,8 @@
 
 PerlinNoise::PerlinNoise(int table_size)
     : table_size(table_size), noise_length(table_size * 2), 
-    noise_compute("Shaders/NoiseGenerator.cshdr"),
-    volume_shdr("Shaders/volume.vs", "Shaders/volume.fs")
+    noise_compute("Shaders/NoiseGenerator.comp"),
+    volume_shdr("Shaders/volume.vert", "Shaders/volume.frag")
 {
     BuildCube();
     BuildTexture();
@@ -18,7 +18,6 @@ PerlinNoise::~PerlinNoise()
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ebo);
     glDeleteBuffers(1, &pbo);
-    glDeleteTextures(1, &noise_texture);
 }
 
 void PerlinNoise::Draw(const Camera& cam)
@@ -41,13 +40,13 @@ void PerlinNoise::Draw(const Camera& cam)
 void PerlinNoise::Bind()
 {
     glBindVertexArray(vao);
-    glBindTexture(GL_TEXTURE_3D, noise_texture);
+    noise.BindTexture();
 }
 
 void PerlinNoise::Unbind()
 {
     glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_3D, 0);
+    noise.UnbindTexture();
 }
 
 void PerlinNoise::BuildCube()
@@ -99,18 +98,6 @@ void PerlinNoise::BuildCube()
 
 void PerlinNoise::BuildTexture()
 {
-    glGenTextures(1, &noise_texture);
-    glBindTexture(GL_TEXTURE_3D, noise_texture);
-
-    //Texture Wrapping (0 ~ 1)
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
-
-    //Texture filtering - sampling
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
     GenerateNoise();
   }
 
@@ -153,12 +140,10 @@ void PerlinNoise::GenerateNoise()
     noise_compute.Use();
     noise_compute.SetInt("table_size", table_size);
     noise_compute.SetInt("noise_side_length", noise_length);
-    glDispatchCompute(table_size, table_size, table_size);
-    glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+    noise_compute.Compute(table_size, table_size, table_size);
 
     //Send the noise buffer to bound texture
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pbo);
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_RED, noise_length, noise_length, noise_length, 
-        0, GL_RED, GL_FLOAT, 0);
+    noise.LoadTexture(noise_length, noise_length, noise_length,GL_RED, 0);
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 }
