@@ -68,12 +68,12 @@ Skybox::Skybox(const std::vector<std::string>& faces_path)
 
 Skybox::~Skybox()
 {
-    glDeleteBuffers(1, &VAO);
+    glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteTextures(1, &texture_id);
 }
 
-void Skybox::Draw(const Shader & shader, const Camera & camera) const
+void Skybox::Draw(Shader & shader, const Camera & camera) const
 {
     glDepthFunc(GL_LEQUAL);
     shader.Use();

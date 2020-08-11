@@ -7,15 +7,6 @@ class TextureBase : public GLObject
 {
 public:
     TextureBase(int texture_type);
-
-    TextureBase(const TextureBase & tb)
-        : GLObject(tb), m_texture_type(tb.m_texture_type),
-        m_width(tb.m_width), m_height(tb.m_height), m_nr_channels(tb.m_nr_channels) {}
-
-    TextureBase(TextureBase && tb)
-        : GLObject(tb), m_texture_type(tb.m_texture_type),
-        m_width(tb.m_width), m_height(tb.m_height), m_nr_channels(tb.m_nr_channels) {}
-
     virtual ~TextureBase() override;
 
     void BindTexture() const;

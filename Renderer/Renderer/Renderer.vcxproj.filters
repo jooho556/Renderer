@@ -37,6 +37,9 @@
     <Filter Include="소스 파일\Celestials\Noise">
       <UniqueIdentifier>{33f6868e-e4ad-42f5-845e-896dc9212072}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Main\IMGUI">
+      <UniqueIdentifier>{50b0e0e4-0464-45c3-a6b1-c58bca6f92b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stb_image.cpp">
@@ -67,6 +70,39 @@
       <Filter>소스 파일\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Skybox.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_party\IMGUI\imgui.cpp">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_party\IMGUI\imgui_demo.cpp">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_party\IMGUI\imgui_draw.cpp">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_party\IMGUI\imgui_widgets.cpp">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_party\IMGUI\main.cpp">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_party\IMGUI\imgui_impl_opengl3.cpp">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_party\IMGUI\imgui_impl_sdl.cpp">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\third_party\IMGUI\TextEditor.cpp">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderEditor.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EmptyCanvas.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -109,6 +145,42 @@
     </ClInclude>
     <ClInclude Include="GLObject.h">
       <Filter>소스 파일\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\IMGUI\imconfig.h">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\IMGUI\imgui.h">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\IMGUI\imgui_internal.h">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\IMGUI\imstb_rectpack.h">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\IMGUI\imstb_textedit.h">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\IMGUI\imstb_truetype.h">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\IMGUI\imgui_impl_opengl3.h">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\IMGUI\imgui_impl_sdl.h">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\third_party\IMGUI\TextEditor.h">
+      <Filter>소스 파일\Main\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderEditor.h">
+      <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyCanvas.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

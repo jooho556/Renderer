@@ -10,7 +10,7 @@ public:
     Skybox(const std::vector<std::string> & faces_path);
     ~Skybox();
 
-    void Draw(const Shader & shader, const Camera & camera) const;
+    void Draw(Shader & shader, const Camera & camera) const;
 
 private:
     unsigned int LoadCubemap(const std::vector<std::string> & faces_path);

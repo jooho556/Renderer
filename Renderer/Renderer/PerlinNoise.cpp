@@ -1,15 +1,15 @@
 #include <vector>
 #include <algorithm>
+#include <chrono>
+#include <random>
 #include "GL/glew.h"
 #include "PerlinNoise.h"
 
-PerlinNoise::PerlinNoise(int table_size)
-    : table_size(table_size), noise_length(table_size * 2), 
-    noise_compute("Shaders/NoiseGenerator.comp"),
-    volume_shdr("Shaders/volume.vert", "Shaders/volume.frag")
+PerlinNoise::PerlinNoise(ComputeShader& compute, int table_size)
+    : table_size(table_size), noise_length(table_size * 2)
 {
     BuildCube();
-    BuildTexture();
+    GenerateNoise(compute);
 }
 
 PerlinNoise::~PerlinNoise()
@@ -20,7 +20,7 @@ PerlinNoise::~PerlinNoise()
     glDeleteBuffers(1, &pbo);
 }
 
-void PerlinNoise::Draw(const Camera& cam)
+void PerlinNoise::Draw(const Camera& cam, Shader& volume_shdr)
 {
     glEnable(GL_CULL_FACE);
     glCullFace(GL_FRONT);
@@ -96,12 +96,7 @@ void PerlinNoise::BuildCube()
     glEnableVertexAttribArray(1);
 }
 
-void PerlinNoise::BuildTexture()
-{
-    GenerateNoise();
-  }
-
-void PerlinNoise::GenerateNoise()
+void PerlinNoise::GenerateNoise(ComputeShader& compute)
 {
     std::vector<glm::vec4> gradients;
     std::vector<unsigned int> permutation_table;
@@ -117,7 +112,8 @@ void PerlinNoise::GenerateNoise()
     }
 
     //Shuffle p table for hashing
-    std::random_shuffle(permutation_table.begin(), permutation_table.end());
+    unsigned seed = static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count());
+    std::shuffle(permutation_table.begin(), permutation_table.end(), std::default_random_engine(seed));
 
     //PBO
     int texture_byte_size = static_cast<int>(std::pow(noise_length, 3));
@@ -137,10 +133,10 @@ void PerlinNoise::GenerateNoise()
         permutation_table.data(), GL_STATIC_DRAW);
 
     //Use compute shader for noise generation
-    noise_compute.Use();
-    noise_compute.SetInt("table_size", table_size);
-    noise_compute.SetInt("noise_side_length", noise_length);
-    noise_compute.Compute(table_size, table_size, table_size);
+    compute.Use();
+    compute.SetInt("table_size", table_size);
+    compute.SetInt("noise_side_length", noise_length);
+    compute.Compute(table_size, table_size, table_size);
 
     //Send the noise buffer to bound texture
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pbo);

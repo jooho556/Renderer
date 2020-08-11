@@ -127,3 +127,4 @@ void main()
     float n  = FractalSum(GetPoint(id.x, id.y, id.z), 8);
     voxel[index] = pow(n, 10) * 100;
 }
+

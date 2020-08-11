@@ -22,32 +22,32 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{EA7BAB24-FE7B-4E48-8706-5AF90E2E4A53}</ProjectGuid>
     <RootNamespace>Renderer</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -97,6 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../../third_party;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>../../third_party/x64_lib;../../third_party/debug_libs</AdditionalLibraryDirectories>
@@ -143,6 +144,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../../third_party;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -159,11 +161,25 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\third_party\IMGUI\imgui.cpp" />
+    <ClCompile Include="..\..\third_party\IMGUI\imgui_demo.cpp" />
+    <ClCompile Include="..\..\third_party\IMGUI\imgui_draw.cpp" />
+    <ClCompile Include="..\..\third_party\IMGUI\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\..\third_party\IMGUI\imgui_impl_sdl.cpp" />
+    <ClCompile Include="..\..\third_party\IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="..\..\third_party\IMGUI\main.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\third_party\IMGUI\TextEditor.cpp" />
     <ClCompile Include="Galaxy.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="PerlinNoiseC++.cpp" />
+    <ClCompile Include="EmptyCanvas.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderEditor.cpp" />
+    <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="stbi_image_write.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -171,6 +187,15 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\third_party\IMGUI\imconfig.h" />
+    <ClInclude Include="..\..\third_party\IMGUI\imgui.h" />
+    <ClInclude Include="..\..\third_party\IMGUI\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\..\third_party\IMGUI\imgui_impl_sdl.h" />
+    <ClInclude Include="..\..\third_party\IMGUI\imgui_internal.h" />
+    <ClInclude Include="..\..\third_party\IMGUI\imstb_rectpack.h" />
+    <ClInclude Include="..\..\third_party\IMGUI\imstb_textedit.h" />
+    <ClInclude Include="..\..\third_party\IMGUI\imstb_truetype.h" />
+    <ClInclude Include="..\..\third_party\IMGUI\TextEditor.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Ellipse.h" />
@@ -178,7 +203,10 @@
     <ClInclude Include="GLObject.h" />
     <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="PerlinNoiseC++.h" />
+    <ClInclude Include="EmptyCanvas.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderEditor.h" />
+    <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_image_write.h" />

@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <iostream>
+#include <chrono>
+#include <random>
 #include "PerlinNoiseC++.h"
 #include "GL/glew.h"
 #include "Constants.h"
@@ -22,7 +24,8 @@ PerlinNoise::PerlinNoise() : table_size(size)
     }
 
     //Shuffle p table for hashing
-    std::random_shuffle(permutation_table.begin(), permutation_table.end());
+    unsigned seed = static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count());
+    std::shuffle(permutation_table.begin(), permutation_table.end(), std::default_random_engine(seed));
 
     //Duplicate the elements to prevent array index overflow (256 -> 512) during hashing
     //unsigned int p_initial_size = static_cast<unsigned int>(permutation_table.size());
@@ -171,7 +174,8 @@ PerlinNoise3D::PerlinNoise3D() : table_size(size), noise_side_length(256)
     }
 
     //Shuffle p table for hashing
-    std::random_shuffle(permutation_table.begin(), permutation_table.end());
+    unsigned seed = static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count());
+    std::shuffle(permutation_table.begin(), permutation_table.end(), std::default_random_engine(seed));
 
     BuildTexture3D();
 }

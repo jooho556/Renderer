@@ -1,35 +1,37 @@
 #include <vector>
+#include "Texture.h"
 #include "Shader.h"
 #include "Ellipse.h"
 #include "GL/glew.h"
 #include "Galaxy.h"
 #include "Camera.h"
+#include "IMGUI/imgui.h"
+#include "Window.h"
 
-Galaxy::Galaxy(const glm::vec3 & pos, const glm::vec3 & nebula_color, 
-    float ellipse_rad_a, float ellipse_eccentricity, const glm::vec3 & star_color)
-    : pos(pos), nebula_color(nebula_color), star_color(star_color)
+Galaxy::Galaxy(const glm::vec3 & pos, const glm::vec3 & color, 
+    float ellipse_rad_a, float ellipse_eccentricity, const glm::vec3 & core_color)
+    : pos(pos), color(color), core_color(core_color)
 {
     CreateGalaxy(ellipse_rad_a, ellipse_eccentricity);
-
-    glm::vec3 rotate_axis = glm::vec3(static_cast<float>(rand() % 10), 
-        static_cast<float>(rand() % 10), static_cast<float>(rand() % 10));
-    rotation = glm::rotate(rotation, 3.14f, glm::normalize(rotate_axis));
-
-    float scalar = (rand() % 20 / 5.f);
-    scale = glm::scale(scale, glm::vec3(scalar, scalar, scalar));
 }
 
 Galaxy::~Galaxy()
 {
-    glDeleteVertexArrays(1, &vao);
-    glDeleteBuffers(1, &particle_buf);
+    Destroy();
+}
+
+void Galaxy::Rebuild(const GalaxyInfo& info)
+{
+    Destroy();
+    surface_brightness = info.surface_brightness;
+    particle_number_scale = info.particle_number_scale;
+    CreateGalaxy(info.radius_a, info.eccentricity);
 }
 
 void Galaxy::Draw(ComputeShader * compute, Shader * star, 
-    const Camera * cam, const Texture2D * tex)
+    const Camera & cam, const Texture2D * tex)
 {
     glBindVertexArray(vao);
-
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, particle_buf);
     tex->BindTexture();
 
@@ -41,16 +43,16 @@ void Galaxy::Draw(ComputeShader * compute, Shader * star,
     //Draw nebula
     star->Use();
     star->SetMat4("model", glm::translate(pos) * rotation * scale);
-    star->SetMat4("view", cam->GetViewMatrix());
-    star->SetMat4("projection", cam->GetProjectionMatrix());
-    star->SetVec3("color", nebula_color);
+    star->SetMat4("view", cam.GetViewMatrix());
+    star->SetMat4("projection", cam.GetProjectionMatrix());
+    star->SetVec3("color", color);
     star->SetFloat("alpha", 10.f);
     star->SetFloat("point_size_scale", 0.8f);
     glDrawArrays(GL_POINTS, 0, particle_num);
 
     //Draw star
     star->Use();
-    star->SetVec3("color", star_color);
+    star->SetVec3("color", core_color);
     star->SetFloat("alpha", 1.f);
     star->SetFloat("point_size_scale", 0.2f);
     glDrawArrays(GL_POINTS, 0, particle_num);
@@ -72,12 +74,10 @@ void Galaxy::CreateGalaxy(float ellipse_rad_a, float ellipse_eccentricity)
 {
     std::vector<ParticleInfo> particles;
 
-    int particle_num_scale = rand() % 10 + 1;
-
     Ellipse ellipse(ellipse_rad_a, ellipse_eccentricity);
     for (float rotate_angle = 0.f; rotate_angle < Angle::PI * 1.5f; rotate_angle += 0.016f)
     {
-        int point_num = static_cast<int>(deVaucouleurs(ellipse.GetRadA()) * particle_num_scale);
+        int point_num = static_cast<int>(deVaucouleurs(ellipse.GetRadA()) * particle_number_scale);
         particle_num += point_num;
         for (int i = 0; i < point_num; ++i)
         {           
@@ -109,18 +109,25 @@ void Galaxy::CreateGalaxy(float ellipse_rad_a, float ellipse_eccentricity)
     unsigned int stride = sizeof(ParticleInfo);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, 0);
     glEnableVertexAttribArray(0);
-
     glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, stride, (void*)(sizeof(float) * 3));
     glEnableVertexAttribArray(1);
-
     glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, stride, (void*)(sizeof(float) * 7));
     glEnableVertexAttribArray(2);
 
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+}
+
+void Galaxy::Destroy()
+{
+    glDeleteBuffers(1, &particle_buf);
+    particle_buf = 0;
+    glDeleteVertexArrays(1, &vao);
+    vao = 0;
+    particle_num = 0;
 }
 
 float Galaxy::deVaucouleurs(float radius, float scale_length)
 {
-    float i0 = 1.f;
-    return static_cast<float>(i0 * std::exp(-7.669 * (powf(radius / scale_length, 0.25f) - 1)));
+    return static_cast<float>(surface_brightness * std::exp(-7.669 * (powf(radius / scale_length, 0.25f) - 1)));
 }
