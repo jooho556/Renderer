@@ -6,19 +6,16 @@
 class PerlinNoise // Perlin noise
 {
 public:
-    PerlinNoise(int table_size);
+    PerlinNoise(ComputeShader& compute, int table_size = 128);
     ~PerlinNoise();
-    void Draw(const Camera & cam);
+    void Draw(const Camera & cam, Shader & volume_shdr);
 
 private:
     void BuildCube();
-    void BuildTexture();
-    void GenerateNoise();
+    void GenerateNoise(ComputeShader& compute);
     void Bind();
     void Unbind();
 
-    ComputeShader noise_compute;
-    Shader volume_shdr;
     Texture3D noise;
     unsigned int table_size;
     unsigned int noise_length;
